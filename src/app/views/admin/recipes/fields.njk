@@ -1,3 +1,35 @@
+{# <div class="item"> {# u
+    <div>Fotos</div>
+    <div>
+        <div class="grid-photos">
+            <div id="photos-upload">
+                <input 
+                id="photos-input"
+                type="file" 
+                name="photos"
+                multiple
+                accept="image/*"
+                onchange="PhotosUpload.handleFileInput(event)"
+                >
+                <span></span>
+                <i class="material-icons">add</i>
+            </div>
+            
+            <div id="photos-preview">
+                {% if files %}
+                {% for file in files %}
+                    <div class="photo" id="{{ file.id }}">
+                        <img src="{{file.src}}" alt="{{file.name}}">
+                            {# Remove as imagens #
+                        <i class="material-icons">close</i>
+                    </div>
+                {% endfor %} 
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div> fim upload #}
+
 <div class="item">
     <div>Imagem da receita</div>
     <div>
