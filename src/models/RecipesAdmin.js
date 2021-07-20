@@ -2,15 +2,15 @@ const db = require('../config/db')
 const {date} =  require('../lib/utils')
 
 module.exports = {
-
-    all(callback) {
+    // index
+    all() {
         return db.query(`
         SELECT recipes.id, recipes.image, recipes.title, chefs.name
         FROM recipes
         INNER JOIN chefs
         ON recipes.chef_id = chefs.id`)           
     },
-
+        
     //        req.body        
     create(data, callback) {
         //inserir dados no banco de dados
@@ -97,17 +97,21 @@ module.exports = {
             }
         )
     },
-    chefSelectOptions(callback) {
-        db.query(`
-            SELECT * FROM chefs`,
-            function (err, results) {
-                if (err) throw `Database Erro! ${err}`
 
-                callback(results.rows)
-            }
-        )
+    // chefSelectOptions(callback) {
+    //     db.query(`
+    //         SELECT * FROM chefs`,
+    //         function (err, results) {
+    //             if (err) throw `Database Erro! ${err}`
+    //             callback(results.rows)
+    //         }
+    //     )
+    // },
+    
+    chefSelectOptions() {
+       return db.query(`SELECT * FROM chefs`)
     },
-
+    
     findByChef(id) {
         // try{
         return db.query(`

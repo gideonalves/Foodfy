@@ -7,6 +7,8 @@ module.exports = {
     //         return res.render("admin/recipes/indexRecipe", { recipes })
     //     })
     // },
+
+    // index
     async indexRecipe(req, res) {
        const results = await RecipesAdmin.all() 
        const recipes = results.rows
@@ -19,6 +21,13 @@ module.exports = {
         })
     },
 
+    async createRecipe(req, res) {
+        const chefOptions = await RecipesAdmin.ChefSelectOptions();
+        return res.render('admin/recipes/createRecipe', { chefOptions });
+    },
+  
+  
+  
     post(req, res) {
         const keys = Object.keys(req.body)
 
