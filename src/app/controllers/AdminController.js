@@ -2,10 +2,15 @@ const RecipesAdmin = require('../../models/RecipesAdmin')
 
 module.exports = {
 
-    indexRecipe(req, res) {
-        RecipesAdmin.all(function (recipes) {
-            return res.render("admin/recipes/indexRecipe", { recipes })
-        })
+    // indexRecipe(req, res) {
+    //     RecipesAdmin.all(function (recipes) {
+    //         return res.render("admin/recipes/indexRecipe", { recipes })
+    //     })
+    // },
+    async indexRecipe(req, res) {
+       const results = await RecipesAdmin.all() 
+       const recipes = results.rows
+       return res.render("admin/recipes/indexRecipe", { recipes })        
     },
 
     createRecipe(req, res) {

@@ -4,16 +4,11 @@ const {date} =  require('../lib/utils')
 module.exports = {
 
     all(callback) {
-        db.query(`
-        SELECT recipes.id,recipes.title,chefs.name
+        return db.query(`
+        SELECT recipes.id, recipes.image, recipes.title, chefs.name
         FROM recipes
         INNER JOIN chefs
-        ON recipes.chef_id = chefs.id`,
-            function (err, results) {
-                if (err) throw `Database Erro! ${err}`
-
-                callback(results.rows)
-            })
+        ON recipes.chef_id = chefs.id`)           
     },
 
     //        req.body        
