@@ -61,6 +61,7 @@ module.exports = {
             callback(results.rows)
         })
     },
+    
     findOneByChef(id_chef, callback){
         db.query(`
         SELECT * FROM recipes r

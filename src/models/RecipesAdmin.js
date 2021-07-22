@@ -9,10 +9,9 @@ module.exports = {
         FROM recipes
         INNER JOIN chefs
         ON recipes.chef_id = chefs.id`)           
-    },
-        
-    //        req.body        
-    create(data, callback) {
+    },        
+
+    create(data) {
         //inserir dados no banco de dados
         const query = `
          INSERT INTO recipes (
@@ -36,34 +35,24 @@ module.exports = {
             date(Date.now()).iso
         ]
 
-        db.query(query, values, function (err, results) {
-            if (err) throw `Database Erro! ${err}`
-
-            callback(results.rows[0])
-        })
+        return db.query(query, values)
     },
     // show
-    find(id, callback) {
-        db.query(`
-            SELECT * FROM recipes
-            WHERE id = $1`, [id], function (err, results) {
-            if (err) throw `Database Erro! ${err}`
-
-            callback(results.rows[0])
-        })
+    find(id) {
+        return db.query(`SELECT * FROM recipes WHERE id = $1`, [id])
     },
 
-    updade(data, callback) {
+    updade(data) {
 
         const query = `
             UPDATE recipes SET
-            chef_id=($1),
-            image=($2),
-            title=($3),
-            ingredients=($4),
-            preparation=($5),
-            information=($6),
-            created_at=($7)
+                chef_id=($1),
+                image=($2),
+                title=($3),
+                ingredients=($4),
+                preparation=($5),
+                information=($6),
+                created_at=($7)
             WHERE id = $8
             `
         const values = [
@@ -77,36 +66,16 @@ module.exports = {
             data.id
         ]
 
-        db.query(query, values,
-            function (err, results) {
-                if (err) throw `Database Erro! ${err}`
-
-                callback()
-            }
-        )
+        return db.query(query, values)   
+        
     },
 
-    delete(id, callback) {
-        db.query(`
+    delete(id) {
+       return db.query(`
             DELETE FROM recipes 
-            WHERE id = $1`, [id],
-            function (err, results) {
-                if (err) throw `Database Erro! ${err}` // throw = lançar
-
-                return callback()
-            }
+            WHERE id = $1`, [id]
         )
     },
-
-    // chefSelectOptions(callback) {
-    //     db.query(`
-    //         SELECT * FROM chefs`,
-    //         function (err, results) {
-    //             if (err) throw `Database Erro! ${err}`
-    //             callback(results.rows)
-    //         }
-    //     )
-    // },
     
     chefSelectOptions() {
        return db.query(`SELECT * FROM chefs`)

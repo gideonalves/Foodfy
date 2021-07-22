@@ -8,6 +8,11 @@ module.exports = {
             return res.render("admin/chefs/indexChef", { chefs })
         })
     },
+    indexChef(req, res) {
+        ChefsAdmin.all(function (chefs) {
+            return res.render("admin/chefs/indexChef", { chefs })
+        })
+    },
 
     createChef(req, res) {
         return res.render("admin/chefs/createChef")
