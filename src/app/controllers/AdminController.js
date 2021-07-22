@@ -1,4 +1,6 @@
 const RecipesAdmin = require('../../models/RecipesAdmin')
+const FilesModels = require('../../models/FilesModels') // Pega os files do model
+const RecipesFile = require('../../models/RecipesFile')
 
 module.exports = {
 
@@ -23,10 +25,25 @@ module.exports = {
                 return res.send('Preencha todos os campos!')
             }
         }
+
+        // verifica se tem files
+        if (req.files.length == 0)
+            return res.send('Por favor envie pelo menos uma imagem')
+
+        // Envia os recipes
+        let result = await RecipesAdmin.create(req.body)
+        const recipeId = result.rows[0].id
         
-        const { rows } = await RecipesAdmin.create(req.body)
-        const recipe = rows[0]
-            return res.redirect(`/admin/recipes/${recipe.id}`)
+        // envia os files
+        const filesPromise = req.files.map(file => FilesModels.create({...file, recipeId }))
+        await Promise.all(filesPromise)
+
+        const filesId = await Promise.all(filesPromise)
+
+        for (let i = 0; i < filesId.length; i++) {
+            FilesModels.createRecipeFiles({ recipe_id: recipeId, file_id: filesId[i]})
+        }       
+        return res.redirect(`/admin/recipes/${recipeId}`)
     },
 
     async showRecipe(req, res) {
