@@ -1,13 +1,14 @@
 const RecipesAdmin = require('../../models/RecipesAdmin')
 const FilesModels = require('../../models/FilesModels') // Pega os files do model
-const RecipesFile = require('../../models/RecipesFile')
 
 module.exports = {
 
     async indexRecipe(req, res) {
-       const results = await RecipesAdmin.all() 
-       const recipes = results.rows
-       return res.render("admin/recipes/indexRecipe", { recipes })        
+        
+        let results = await RecipesAdmin.all() 
+        const recipes = results.rows       
+                
+        return res.render("admin/recipes/indexRecipe", { recipes}) 
     },
 
     async createRecipe(req, res) {
@@ -16,72 +17,113 @@ module.exports = {
         return res.render('admin/recipes/createRecipe', { chefOptions: chefOptions.rows });
         
     },  
-  
     async post(req, res) {
-        const keys = Object.keys(req.body)
+        try {
+            const keys = Object.keys(req.body)
 
-        for (key of keys) {
-            if (req.body[key] == "") {
-                return res.send('Preencha todos os campos!')
+            for (key of keys) {
+                if (req.body[key] == "") {
+                    return res.send('Preencha todos os campos!')
+                }
             }
+
+            // verifica se tem files
+            if (req.files.length == 0)
+                return res.send('Por favor envie pelo menos uma imagem')   
+                 
+            // Envia as recipes
+            let result = await RecipesAdmin.create(req.body)
+            const recipeId = result.rows[0].id
+            
+           // envia os files
+            const filesPromise = req.files.map(file => FilesModels.create({...file }))
+            const filesId = await Promise.all(filesPromise)            
+            
+            for (let i = 0; i < filesId.length; i++) {
+                FilesModels.createRecipeFiles({ recipe_id: recipeId, file_id: filesId[i] })
+            }
+
+            return res.redirect(`/admin/recipes/${recipeId}`)
+        } catch (err) {
+            console.error(err)
         }
-
-        // verifica se tem files
-        if (req.files.length == 0)
-            return res.send('Por favor envie pelo menos uma imagem')
-
-        // Envia os recipes
-        let result = await RecipesAdmin.create(req.body)
-        const recipeId = result.rows[0].id
-        
-        // envia os files
-        const filesPromise = req.files.map(file => FilesModels.create({...file, recipeId }))
-        await Promise.all(filesPromise)
-
-        const filesId = await Promise.all(filesPromise)
-
-        for (let i = 0; i < filesId.length; i++) {
-            FilesModels.createRecipeFiles({ recipe_id: recipeId, file_id: filesId[i]})
-        }       
-        return res.redirect(`/admin/recipes/${recipeId}`)
     },
-
+  
     async showRecipe(req, res) {
-        const results = await RecipesAdmin.find(req.params.id)
+        let results = await RecipesAdmin.find(req.params.id)
         const recipes = results.rows[0]
 
-        if (!recipes) return res.send("Recipes not found!")
+        // Vai fazer a galeria de imagem
+        results = await FilesModels.files(recipes.id) // pega as imagem do banco da tabela files pelo product.id
+        const files = results.rows.map(file => ({
+            ...file,                    // replace faz tira o plublic e deixa vazio                  
+            src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+        }))
 
-        return res.render("admin/recipes/showRecipe", { items: recipes })
+        if (!recipes) return res.send("Recipes not found!")         
+
+        return res.render("admin/recipes/showRecipe", { items: recipes, files })
     },
 
     async editRecipe(req, res) {
+        // Pega os recipes
         let results = await RecipesAdmin.find(req.params.id)
         const recipes = results.rows[0]
 
         if (!recipes) return res.send("Recipes not found!")         
-
+        // Pega os chefOptions
         const chefOptions = await RecipesAdmin.chefSelectOptions();
 
-        return res.render("admin/recipes/editRecipe", { items: recipes, chefOptions: chefOptions.rows })
-       
+        // Pega os Files
+        results = await FilesModels.files(recipes.id)
+        let files = results.rows
+        files = files.map(file => ({
+            ...file,
+            src: `${req.protocol}://${req.headers.host}${file.path.replace(
+            "public", 
+            ""
+            )}` 
+        }))
+
+        return res.render("admin/recipes/editRecipe", { items: recipes, chefOptions: chefOptions.rows, files })       
     },
 
     async put(req, res) {
+      
         const keys = Object.keys(req.body)
 
         for (key of keys) {
-            if (req.body[key] == "") {
+            if (req.body[key] == "" && key != "removed_files") {
                 return res.send('Please, fill all fields!')
             }
         }
+
+        if (req.files.length != 0) {
+            const newFilesPromise = req.files.map(file => 
+                FilesModels.create({...file, file_id: req.body.id}))
+
+            await Promise.all(newFilesPromise)    
+        }
+
+        if (req.body.removed_files) {
+            const removedFiles = req.body.removed_files.split(",")
+            const lastIndex = removedFiles.length - 1
+            removedFiles.splice(lastIndex, 1)
+    
+
+         // const removedFilesPromise = removedFiles.map(id = FilesModels.delete(id))
+            const removedFilesPromise = removedFiles.map(id => FilesModels.delete(id))
+
+            await Promise.all(removedFilesPromise)
+        }
+
         req.body.ingredients = req.body.ingredients.filter(function (item) {                      
             return item != ""
 
         })
        
         await RecipesAdmin.updade(req.body) 
-
+        // return res.send(req.body)
             return res.redirect(`/admin/recipes/${req.body.id}`)
         
     },

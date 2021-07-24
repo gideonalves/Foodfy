@@ -9,11 +9,56 @@
                 <a href="/admin/recipes/{{ items.id }}/editRecipe" class="button">Editar receita</a>
         </div>
 
-        <div class="recipe-banner">
-            <img src="{{items.image}}" alt="Imagem de {{items.title}}">
+        {# <div class="recipe-banner">
+            <img src="{{items.filesId}}" alt="Imagem de {{items.title}}">
             <h2>{{items.title}}</h2>
             <span>{{items.author}}</span>
+        </div> #}
+
+        <div class="gallery">
+            <div class="highlight">
+                {% if not files[0] %}
+                    <img src="http://placehold.it/500x500?text=PRODUTO SEM FOTO" />
+                {% else %}
+                    <img 
+                        src="{{files[0].src}}" 
+                        alt="{{files[0].name}}"
+                        onclick="Lightbox.open()"
+                    >
+                {% endif %}
+                
+                <div class="lightbox-target">
+                    <img src="{{files[0].src}}" alt="{{files[0].name}}"/>
+
+                    <a 
+                        href="" 
+                        class="lightbox-close"
+                        onclick="Lightbox.close()"
+                    >
+                        <i class="material-icons">close</i>
+                    </a>   
+                </div>    
+            </div>
+
+            <div class="gallery-preview">
+
+                {% for image in files %}
+                    <img 
+                        src="{{image.src}}" 
+                        alt="{{image.name}}"
+                        {% if loop.index0 == 0 %}
+                        class="active"
+                        {% endif %}
+                        onclick="ImageGallery.setImage(event)"
+                    />
+                {% endfor %}
+
+            </div>
+
         </div>
+
+        <h2>{{items.title}}</h2>
+        <span>{{items.author}}</span>
 
         <div class="details">
             <div class="row">

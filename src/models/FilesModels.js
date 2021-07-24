@@ -1,35 +1,89 @@
 const db = require('../config/db')
+const fs = require('fs')
 
 module.exports = {
  
-    create({filename, path}) {
+    async create(data) {
         //inserir dados no banco de dados
-        const query = `
-         INSERT INTO files (
-                name,
-                path
+        try {
+            const query = `
+            INSERT INTO files (
+                    name,
+                    path
+                ) VALUES ($1, $2)
+            RETURNING id
+            `
+            const values = [
+                data.filename,
+                data.path
+            ]
+            const results = await db.query(query, values)
+
+            return results.rows[0].id
+        } catch (err) {
+            console.error(err)
+        }
+    },
+
+    createRecipeFiles(data) {
+        try {
+            const query = `
+            INSERT INTO recipe_files (
+                recipe_id,
+                file_id
             ) VALUES ($1, $2)
-         RETURNING id
-         `
-        const values = [
-            filename,
-            path
-        ]
-        return db.query(query, values)
+            RETURNING id
+            `
+            const values = [
+                data.recipe_id,              
+                data.file_id      
+            ]
+            return db.query(query, values)
+        } catch (err) {
+            console.error(err)
+        }
     },
-    createRecipeFiles(idRecipe, idFile) {
-        const query = `
-        INSERT INTO recipe_files (
-            recipe_id,
-            file_id
-        ) VALUES ($1, $2)
-        RETURNING id
-        `
-        const values = [
-            idRecipe,              
-            idFile      
-        ]
-        return db.query(query, values)
+
+    findRecipeId(id) {
+        return db.query(`
+            SELECT recipe_files.file_id 
+            FROM recipe_files
+            WHERE recipe_files.recipe_id = $1`
+            ,[id])
     },
+ 
+    files(id) {
+        return db.query(
+          `
+          SELECT files.*
+          FROM files 
+          LEFT JOIN recipe_files ON (files.id = recipe_files.file_id)
+          LEFT JOIN recipes ON (recipes.id = recipe_files.recipe_id) 
+          WHERE recipes.id = $1
+        `,
+          [id]
+        )
+    },
+    
+    async delete(id) {
+
+        try {
+            const result = await db.query(`SELECT * FROM files WHERE id = $1`, [id])
+            const file = result.rows[0]
+
+            fs.unlinkSync(file.path)
+
+         // DELETE FROM files WHERE id = $id
+            return db.query(`
+            DELETE FROM files WHERE id = $1
+
+        `, [id])
+
+        } catch (error) {
+            console.err(err);
+        }
+
+      
+    }
 
 }

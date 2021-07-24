@@ -4,7 +4,7 @@ const Chefs = require('../../models/ChefsAdmin')
 
 module.exports = {
     index(req, res) {
-      // res.send("ok")
+    //   res.send("ok")
         let { filter, page, limit } = req.query
 
         page = page || 1

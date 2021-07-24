@@ -190,7 +190,60 @@ const PhotosUpload = {
         PhotosUpload.input.files = PhotosUpload.getAllFiles()
 
         photoDiv.remove()
+    }, 
+
+      // clica na imagem e exclui
+      removeOldPhoto(event) {
+        const photoDiv = event.target.parentNode
+
+        if(photoDiv.id) {
+            const removedFiles = document.querySelector('input[name="removed_files"]')
+
+            if (removedFiles) {
+                removedFiles.value += `${photoDiv.id},`
+            }
+        }
+
+        photoDiv.remove()
     }
 
-
 }
+
+// Galeria de imagem
+const ImageGallery = {
+    highlight: document.querySelector('.gallery .highlight > img'),
+    preview: document.querySelectorAll('.gallery-preview img'),
+    setImage(e) {
+        const { target } = e
+        // Remove as imagem ativa
+        ImageGallery.preview.forEach(preview => preview.classList.remove('active'))
+
+        // ativa as imagem com click
+        target.classList.add('active')
+
+        // troca da imagem grande
+        ImageGallery.highlight.src = target.src
+        Lightbox.image.src = target.src
+    }
+}
+
+const Lightbox = {
+    target: document.querySelector('.lightbox-target'),
+    image: document.querySelector('.lightbox-target img'),
+    //abrir
+    closeButton: document.querySelector('.lightbox-target a.lightbox-close'),
+    open() {
+        Lightbox.target.style.opacity = 1
+        Lightbox.target.style.top = 0
+        Lightbox.target.style.bottom = 0
+        Lightbox.closeButton.style.top = 0
+    },
+    //fechar
+    close() {
+        Lightbox.target.style.opacity = 1
+        Lightbox.target.style.top = "-100%"
+        Lightbox.target.style.bottom = "initial"
+        Lightbox.closeButton.style.top = "-80px"
+    }
+}
+            
