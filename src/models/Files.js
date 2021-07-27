@@ -2,7 +2,18 @@ const db = require('../config/db')
 const fs = require('fs')
 
 module.exports = {
- 
+    // pega o files da tabela recipe_id
+    findFileIDRecipeId(id) {
+        return db.query(`
+        SELECT * FROM files 
+        INNER JOIN recipe_files
+        ON files.id = recipe_files.file_id
+        WHERE recipe_files.recipe_id = $1
+        `,[id]
+        )
+      },
+
+    //  post - create e o put
     async create(data) {
         //inserir dados no banco de dados
         try {
@@ -23,8 +34,10 @@ module.exports = {
         } catch (err) {
             console.error(err)
         }
+          
     },
 
+    // post - create
     createRecipeFiles(data) {
         try {
             const query = `
@@ -44,14 +57,7 @@ module.exports = {
         }
     },
 
-    findRecipeId(id) {
-        return db.query(`
-            SELECT recipe_files.file_id 
-            FROM recipe_files
-            WHERE recipe_files.recipe_id = $1`
-            ,[id])
-    },
- 
+    //  showRecipe e editRecipe
     files(id) {
         return db.query(
           `

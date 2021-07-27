@@ -4,14 +4,13 @@ const {date} =  require('../lib/utils')
 module.exports = {
     // index
     all() {
-        // SELECT recipes.id, recipes.image, recipes.title, chefs.name
         return db.query(`
         SELECT recipes.id, recipes.title, chefs.name
         FROM recipes
         INNER JOIN chefs
         ON recipes.chef_id = chefs.id`)           
-    },        
-
+    }, 
+    
     create(data) {
         //inserir dados no banco de dados
         const query = `

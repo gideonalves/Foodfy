@@ -1,14 +1,24 @@
 const RecipesAdmin = require('../../models/RecipesAdmin')
-const FilesModels = require('../../models/FilesModels') // Pega os files do model
+const Files = require('../../models/Files') // Pega os files do model
 
 module.exports = {
 
     async indexRecipe(req, res) {
-        
-        let results = await RecipesAdmin.all() 
-        const recipes = results.rows       
+
+        // Pega os recipes   
+        let results =  (await RecipesAdmin.all()).rows            
                 
-        return res.render("admin/recipes/indexRecipe", { recipes}) 
+        const files = results.map(async recipe =>({
+                        ...recipe,
+                        file: (await Files.findFileIDRecipeId(recipe.id)).rows})) 
+        const filesPromisse = await Promise.all(files)       
+
+        const recipes = filesPromisse.map(item => ({
+             ...item,                    
+            file:`${req.protocol}://${req.headers.host}${item.file[0].path.replace("public\\images\\", "\\\\images\\\\")}`,                   
+        }))
+        // return res.send(recipes)
+        return res.render("admin/recipes/indexRecipe", { recipes }) 
     },
 
     async createRecipe(req, res) {
@@ -18,32 +28,37 @@ module.exports = {
         
     },  
     async post(req, res) {
+    //return res.send({body: req.body, file: req.files}) ///debugar req.body
         try {
             const keys = Object.keys(req.body)
-
             for (key of keys) {
                 if (req.body[key] == "") {
-                    return res.send('Preencha todos os campos!')
+                    return res.send(`O campo ${key} esta em branco!`)
                 }
             }
+            // return res.send(keys) esta validando os campos
 
             // verifica se tem files
-            if (req.files.length == 0)
-                return res.send('Por favor envie pelo menos uma imagem')   
-                 
+            if (req.files.length == 0)            
+                return res.send('Por favor envie pelo menos uma imagem')  
+
             // Envia as recipes
             let result = await RecipesAdmin.create(req.body)
             const recipeId = result.rows[0].id
+            //return res.send({result:result.rows[0], recipeId})
             
            // envia os files
-            const filesPromise = req.files.map(file => FilesModels.create({...file }))
-            const filesId = await Promise.all(filesPromise)            
             
-            for (let i = 0; i < filesId.length; i++) {
-                FilesModels.createRecipeFiles({ recipe_id: recipeId, file_id: filesId[i] })
-            }
+            const filesIds = await Promise.all(req.files.map(file => Files.create({...file})))
 
+            for (const id of filesIds) {
+                await Files.createRecipeFiles({recipe_id: recipeId, file_id: id})
+            }           
+
+           // return res.send({filesIds,recipeId})
+           
             return res.redirect(`/admin/recipes/${recipeId}`)
+
         } catch (err) {
             console.error(err)
         }
@@ -54,7 +69,7 @@ module.exports = {
         const recipes = results.rows[0]
 
         // Vai fazer a galeria de imagem
-        results = await FilesModels.files(recipes.id) // pega as imagem do banco da tabela files pelo product.id
+        results = await Files.files(recipes.id) // pega as imagem do banco da tabela files pelo product.id
         const files = results.rows.map(file => ({
             ...file,                    // replace faz tira o plublic e deixa vazio                  
             src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
@@ -75,7 +90,7 @@ module.exports = {
         const chefOptions = await RecipesAdmin.chefSelectOptions();
 
         // Pega os Files
-        results = await FilesModels.files(recipes.id)
+        results = await Files.files(recipes.id)
         let files = results.rows
         files = files.map(file => ({
             ...file,
@@ -100,7 +115,7 @@ module.exports = {
 
         if (req.files.length != 0) {
             const newFilesPromise = req.files.map(file => 
-                FilesModels.create({...file, file_id: req.body.id}))
+                Files.create({...file, file_id: req.body.id}))
 
             await Promise.all(newFilesPromise)    
         }
@@ -111,8 +126,8 @@ module.exports = {
             removedFiles.splice(lastIndex, 1)
     
 
-         // const removedFilesPromise = removedFiles.map(id = FilesModels.delete(id))
-            const removedFilesPromise = removedFiles.map(id => FilesModels.delete(id))
+         // const removedFilesPromise = removedFiles.map(id = Files.delete(id))
+            const removedFilesPromise = removedFiles.map(id => Files.delete(id))
 
             await Promise.all(removedFilesPromise)
         }
