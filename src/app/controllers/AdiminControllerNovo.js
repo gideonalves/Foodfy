@@ -108,8 +108,21 @@ module.exports = {
                 return res.send('Please, fill all fields!')
             }
         }
+        
+        if (req.files.length != 0) {
+            const newFilesPromise = req.files.map(file =>
+                Files.create({ ...file, file_id: req.body.id }))
 
-        // remove as images
+            const idFiles = await Promise.all(newFilesPromise)
+
+            const fileRecipes = idFiles.map(id => Files.createRecipeFiles({
+                recipe_id: req.body.id,
+                file_id: id
+            }))
+
+            const idFilesRecipes = await Promise.all(fileRecipes)
+        }
+
         if (req.body.removed_files) {
             const removedFiles = req.body.removed_files.split(",")
             const lastIndex = removedFiles.length - 1
@@ -121,34 +134,8 @@ module.exports = {
             })
 
             await Promise.all(removedFilesPromise)
+
         }
-
-
-        
-        if (req.files.length != 0) {
-
-            // validar se ja não existem 5 imagens no total
-            const oldFiles = await Files.files(req.body.id)
-            const totalFiles = oldFiles.rows.length + req.files.length
-
-            if(totalFiles <= 5) {
-                const newFilesPromise = req.files.map(file =>
-                    Files.create({ ...file, file_id: req.body.id }))
-    
-                const idFiles = await Promise.all(newFilesPromise)
-    
-                const fileRecipes = idFiles.map(id => Files.createRecipeFiles({
-                    recipe_id: req.body.id,
-                    file_id: id
-                }))
-    
-                const idFilesRecipes = await Promise.all(fileRecipes)                
-            }           
-        }
-
-
-
-       
 
         req.body.ingredients = req.body.ingredients.filter(function (item) {
             return item != ""
