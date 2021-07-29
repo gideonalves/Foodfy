@@ -3,12 +3,17 @@
 {% block content %}
 
     <main>
-            <form  class="details" method="POST" action="/admin/recipes?_method=PUT" enctype="multipart/form-data">
+            <form  
+                class="details" 
+                method="POST" 
+                action="/admin/recipes?_method=PUT" 
+                enctype="multipart/form-data">
 
                 <div class="subtitulo">
                     <div>
                         <h2>Editar receita</h2>
                     </div>
+
                     <div>
                         <button type="submit">Salvar receita</button>
                         <button class="btnDele" form="form-delete" type="submit">Deletar</button>  

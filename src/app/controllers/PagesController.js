@@ -1,10 +1,10 @@
 const Recipes = require('../../models/Recipes')
 const Chefs = require('../../models/ChefsAdmin')
 
-
 module.exports = {
     index(req, res) {
-    //   res.send("ok")
+   // return res.send("Formulario vazio Preencha o formulario")
+        
         let { filter, page, limit } = req.query
 
         page = page || 1
@@ -18,16 +18,16 @@ module.exports = {
             limit,
             offset,
             callback(recipes) {
-
+                console.log(recipes);
                 const pagination = {
-                   total: Math.ceil(recipes[0].totapages/limit),
+                   total:recipes.length > 0 ? Math.ceil(recipes[0].totapages/limit):0,
                     page
                 }
                 return res.render("pages/index", { recipes, pagination,filter })
             }            
-        }
-       
-                Recipes.paginate(params)       
+        } 
+
+        Recipes.paginate(params)     
 
     },
 

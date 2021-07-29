@@ -2,7 +2,7 @@ const db = require('../config/db')
 const fs = require('fs')
 
 module.exports = {
-    // pega o files da tabela recipe_id
+    // Index pega o files da tabela recipe_id    
     findFileIDRecipeId(id) {
         return db.query(`
         SELECT * FROM files 
@@ -70,7 +70,7 @@ module.exports = {
           [id]
         )
     },
-    
+    // Put    
     async delete(id) {
 
         try {
@@ -90,6 +90,22 @@ module.exports = {
         }
 
       
-    }
+    },
+    async deleteRecipeFiles(id) {
+
+        try {
+           
+         // DELETE FROM deleteRecipeFile WHERE id = $id
+            return db.query(`
+            DELETE FROM recipe_files WHERE file_id = $1
+
+        `, [id])
+
+        } catch (error) {
+            console.err(err);
+        }
+
+      
+    },
 
 }

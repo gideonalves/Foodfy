@@ -35,11 +35,11 @@ module.exports = {
 
         return db.query(query, values)
     },
-    // show
+    // ShowRecipe
     find(id) {
         return db.query(`SELECT * FROM recipes WHERE id = $1`, [id])
     },
-
+    // Put
     updade(data) {
 
         const query = `
@@ -65,14 +65,15 @@ module.exports = {
         return db.query(query, values)   
         
     },
-
+    // Delete
     delete(id) {
        return db.query(`
             DELETE FROM recipes 
             WHERE id = $1`, [id]
         )
     },
-    
+   
+    // EditRecipe e CreateRecipe
     chefSelectOptions() {
        return db.query(`SELECT * FROM chefs`)
     },
