@@ -1,23 +1,44 @@
+CREATE TABLE "chefs" (
+  "id" SERIAL PRIMARY KEY,
+  "name" text NOT NULL,
+  "created_at" timestamp DEFAULT (now())
+  "avatar_url" text NOT NULL,
+);
+
+CREATE TABLE "recipes" (
+    "id" SERIAL PRIMARY KEY,
+    "chef_id" integer,
+    "title" text not null,
+    "ingredients" text[] not null,
+    "preparation" text[] not null,
+    "information" text not null,
+    "created_at" timestamp not null
+  );
+
 CREATE TABLE "files" (
   "id" SERIAL PRIMARY KEY,
-  "name" TEXT,
-  "path" TEXT not null
+  "name" text NOT NULL,
+  "path" text NOT NULL
 );
 
 CREATE TABLE "recipe_files" (
   "id" SERIAL PRIMARY KEY,
-  "recipe_id" INTEGER UNIQUE,
-  "file_id" INTEGER UNIQUE
+  "recipe_id" int,
+  "file_id" int
 );
+
+ALTER TABLE "recipes" ADD FOREIGN KEY ("chef_id") REFERENCES "chefs" ("id");
+
+ALTER TABLE "recipe_files" ADD FOREIGN KEY ("recipe_id") REFERENCES "recipes" ("id");
 
 ALTER TABLE "recipe_files" ADD FOREIGN KEY ("file_id") REFERENCES "files" ("id");
 
--- CREATE TABLE recipes (
---   chef_id integer,
---   image text not null,
---   title text not null,
---   ingredients text[] not null,
---   preparation text[] not null,
---   information text not null,
---   created_at timestamp not null
---   );
+ALTER TABLE "chefs" ADD FOREIGN KEY ("file_id") REFERENCES "files" ("id");
+
+
+
+
+
+
+
+
