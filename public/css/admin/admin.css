@@ -285,6 +285,7 @@ textarea {
     width: 100%;
     height: 280px;
     object-position: 50% 50%;
+    object-fit: cover;
     border-radius: 15px;
     border-radius: 15px;
 

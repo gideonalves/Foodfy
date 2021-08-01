@@ -5,13 +5,13 @@ module.exports = {
     // Index pega o files da tabela recipe_id    
     findFileIDRecipeId(id) {
         return db.query(`
-        SELECT * FROM files 
-        INNER JOIN recipe_files
-        ON files.id = recipe_files.file_id
-        WHERE recipe_files.recipe_id = $1
-        `,[id]
+            SELECT * FROM files 
+            INNER JOIN recipe_files
+            ON files.id = recipe_files.file_id
+            WHERE recipe_files.recipe_id = $1
+            `, [id]
         )
-      },
+    },
 
     //  post - create e o put
     async create(data) {
@@ -34,7 +34,6 @@ module.exports = {
         } catch (err) {
             console.error(err)
         }
-          
     },
 
     // post - create
@@ -48,8 +47,8 @@ module.exports = {
             RETURNING id
             `
             const values = [
-                data.recipe_id,              
-                data.file_id      
+                data.recipe_id,
+                data.file_id
             ]
             return db.query(query, values)
         } catch (err) {
@@ -59,53 +58,42 @@ module.exports = {
 
     //  showRecipe e editRecipe
     files(id) {
-        return db.query(
-          `
-          SELECT files.*
-          FROM files 
+        return db.query(`
+          SELECT files.* FROM files 
           LEFT JOIN recipe_files ON (files.id = recipe_files.file_id)
           LEFT JOIN recipes ON (recipes.id = recipe_files.recipe_id) 
           WHERE recipes.id = $1
-        `,
-          [id]
+        `, [id]
         )
     },
     // Put    
     async delete(id) {
-
         try {
             const result = await db.query(`SELECT * FROM files WHERE id = $1`, [id])
             const file = result.rows[0]
 
             fs.unlinkSync(file.path)
 
-         // DELETE FROM files WHERE id = $id
+            // DELETE FROM files WHERE id = $id
             return db.query(`
             DELETE FROM files WHERE id = $1
-
-        `, [id])
+            `, [id])
 
         } catch (error) {
             console.err(err);
         }
-
-      
     },
+
     async deleteRecipeFiles(id) {
 
         try {
-           
-         // DELETE FROM deleteRecipeFile WHERE id = $id
+            // DELETE FROM deleteRecipeFile WHERE id = $id
             return db.query(`
             DELETE FROM recipe_files WHERE file_id = $1
-
-        `, [id])
+            `, [id])
 
         } catch (error) {
             console.err(err);
         }
-
-      
     },
-
 }
