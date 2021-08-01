@@ -2,12 +2,8 @@ const db = require('../config/db')
 
 module.exports = {
     // INDEX
-    all(callback) {
-        db.query(`SELECT * FROM chefs`,
-         function(err, results) {
-            if(err) throw `Database Erro! ${err}`
-            callback(results.rows)
-        })    
+    all() {
+       return db.query(`SELECT * FROM chefs`)
     },
 
     findAllChefsCountRecipes(callback) {

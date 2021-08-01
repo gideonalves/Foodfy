@@ -3,16 +3,17 @@ const Recipes = require('../../models/Recipes')
 
 module.exports = {
 
-    indexChef(req, res) {
-        ChefsAdmin.all(function (chefs) {
-            return res.render("admin/chefs/indexChef", { chefs })
-        })
+    async indexChef(req, res) {
+       const results = await ChefsAdmin.all()
+       const chefs = results.rows
+            return res.render("admin/chefs/indexChef", { chefs })        
     },
-    indexChef(req, res) {
-        ChefsAdmin.all(function (chefs) {
-            return res.render("admin/chefs/indexChef", { chefs })
-        })
-    },
+
+    // indexChef(req, res) {
+    //     ChefsAdmin.all(function (chefs) {
+    //         return res.render("admin/chefs/indexChef", { chefs })
+    //     })
+    // },
 
     createChef(req, res) {
         return res.render("admin/chefs/createChef")
