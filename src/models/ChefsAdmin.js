@@ -37,11 +37,7 @@ module.exports = {
              data.created_at
          ]
  
-         db.query(query, values, function(err, results) {
-                 if(err) throw `Database Erro! ${err}`
-             
-             callback(results.rows[0])
-         })
+        return db.query(query, values)
     },
     // show
     find(id, callback){

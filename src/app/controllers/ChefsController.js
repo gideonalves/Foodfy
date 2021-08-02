@@ -19,7 +19,7 @@ module.exports = {
         return res.render("admin/chefs/createChef")
     },
 
-    post(req, res) {
+    async post(req, res) {
         const keys = Object.keys(req.body)
 
         for (key of keys) {
@@ -28,11 +28,11 @@ module.exports = {
             }
         }
 
-        ChefsAdmin.create(req.body, function (chef) {
-            return res.redirect(`/admin/chefs/${chef.id}`)
-        })
+        const result = await ChefsAdmin.create(req.body)
+        const chef = ChefsAdmin.create(req.body)
+       
+            return res.redirect(`/admin/chefs/${chef.id}`)        
     },
-
 
     showChef(req, res) {
 
