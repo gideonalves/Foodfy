@@ -1,3 +1,5 @@
+{% block content %}
+
 <div class="item">
     <div>Nome</div>
     <div>
@@ -11,6 +13,27 @@
 
 <div class="item">
     <div>Avatar</div>
+    <div id="photos-upload">
+        <input 
+            id='input-file' 
+            type='file' 
+            name="photos" 
+            accept="image/*"
+            onchange="PhotosUpload.handleImageInput(event)"
+        >
+    </div>
+
+     <label 
+        class="send-avatar" 
+        for='input-file'>
+        Enviar Avatar
+    </label>
+</div>
+
+{% endblock content %}
+
+{# <div class="item">
+    <div>Avatar</div>
     <div>
         <input 
             type="url" 
@@ -19,5 +42,4 @@
             value="{{ chef.avatar_url }}"
         >
     </div>
-</div>
-
+</div> #}

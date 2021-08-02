@@ -8,11 +8,11 @@ module.exports = {
 
     findAllChefsCountRecipes(callback) {
         db.query(`
-        SELECT c.id, c.name,count(r.id) AS total_recipes,c.avatar_url
+        SELECT c.id, c.name,count(r.id) AS total_recipes,c.file_id
         FROM chefs c
         INNER JOIN recipes r
         ON c.id = r.chef_id
-        GROUP BY c.id,c.name,c.avatar_url 
+        GROUP BY c.id,c.name,c.file_id 
         ORDER BY c.name ASC
         `, function(err, results) {
             if(err) throw `Database Erro! ${err}`
@@ -21,27 +21,23 @@ module.exports = {
     },
 
     // POST
-    create(data, callback) {
+    create(data) {
          //inserir dados no banco de dados
          const query = `
          INSERT INTO chefs (
              name,
-             avatar_url,
+             file_id,
              created_at            
          ) VALUES ($1, $2, $3)
          RETURNING id
      `
          const values = [
              data.name,
-             data.avatar_url,
+             data.file_id,
              data.created_at
          ]
  
-         db.query(query, values, function(err, results) {
-                 if(err) throw `Database Erro! ${err}`
-             
-             callback(results.rows[0])
-         })
+        return db.query(query, values)
     },
     // show
     find(id, callback){
@@ -88,13 +84,13 @@ module.exports = {
             const query = `
             UPDATE chefs SET
             name=($1),
-            avatar_url=($2),
+            file_id=($2),
             created_at=($3)                        
             WHERE id = $4
             `        
             const values = [
                 data.name,
-                data.avatar_url,              
+                data.file_id,              
                 data.created_at,
                 data.id
             ]

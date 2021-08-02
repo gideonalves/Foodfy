@@ -370,28 +370,6 @@ textarea {
     transition: 400ms;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  .recipe-banner {
     text-align: center;  
     margin-top: 24px;
@@ -692,4 +670,44 @@ textarea {
 #photos-preview .photo:hover i {
     opacity: 1;
     
+}
+
+
+
+ /* =========== UPLOAD IMAGE CHEF =========== */
+ #photos-chef {
+    position: relative;
+
+    display: block;
+    overflow: hidden;
+
+    /* width: 200px; */
+} 
+
+.send-avatar {
+    width: 139px;
+    height: 37px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px -6px #333;
+    background: #6558C3;
+    color: white;
+
+    text-align: center;
+    cursor: pointer;
+
+    font-family: Helvetica-Bold;
+    font-size: 16px;
+}
+
+#input-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: block;
+    overflow: hidden;
+    /* width: 100%;
+    height: 100%; */
+    opacity: 0;
 }

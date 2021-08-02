@@ -9,17 +9,11 @@ module.exports = {
             return res.render("admin/chefs/indexChef", { chefs })        
     },
 
-    // indexChef(req, res) {
-    //     ChefsAdmin.all(function (chefs) {
-    //         return res.render("admin/chefs/indexChef", { chefs })
-    //     })
-    // },
-
     createChef(req, res) {
         return res.render("admin/chefs/createChef")
     },
 
-    post(req, res) {
+    async post(req, res) {
         const keys = Object.keys(req.body)
 
         for (key of keys) {
@@ -28,9 +22,15 @@ module.exports = {
             }
         }
 
-        ChefsAdmin.create(req.body, function (chef) {
+        const results = await ChefsAdmin.create(req.body)
+        const chef = results.rows[0].id
+        
             return res.redirect(`/admin/chefs/${chef.id}`)
-        })
+    
+
+        // ChefsAdmin.create(req.body, function (chef) {
+        //     return res.redirect(`/admin/chefs/${chef.id}`)
+        // })
     },
 
 
