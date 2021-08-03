@@ -122,8 +122,6 @@ module.exports = {
 
             await Promise.all(removedFilesPromise)
         }
-
-
         
         if (req.files.length != 0) {
 
@@ -145,10 +143,6 @@ module.exports = {
                 const idFilesRecipes = await Promise.all(fileRecipes)                
             }           
         }
-
-
-
-       
 
         req.body.ingredients = req.body.ingredients.filter(function (item) {
             return item != ""

@@ -9,12 +9,6 @@ module.exports = {
             return res.render("admin/chefs/indexChef", { chefs })        
     },
 
-    // indexChef(req, res) {
-    //     ChefsAdmin.all(function (chefs) {
-    //         return res.render("admin/chefs/indexChef", { chefs })
-    //     })
-    // },
-
     createChef(req, res) {
         return res.render("admin/chefs/createChef")
     },
@@ -29,46 +23,34 @@ module.exports = {
         }
 
         const result = await ChefsAdmin.create(req.body)
-        const chef = ChefsAdmin.create(req.body)
+        const chef = result.rows[0]
        
             return res.redirect(`/admin/chefs/${chef.id}`)        
     },
 
-    showChef(req, res) {
+    async showChef(req, res) {
 
-        ChefsAdmin.find(req.params.id, function (chef) {
-            if (!chef) return res.send("Recipes not found!")
+           let results = await ChefsAdmin.find(req.params.id) 
+           const chef = results.rows[0] 
+                if (!chef) return res.send("Chefe não encontrado!")
 
-            ChefsAdmin.findRecipes(req.params.id, function (recipes) {
-                if (!recipes) return res.send("Recipes not found!")
+           results = await ChefsAdmin.findRecipes(req.params.id) 
+           const recipes = results.rows
+                if (!recipes) return res.send("Recipes não encontrado!")
 
-                // res.render("admin/chefs/showChef", { chef, recipes, msgError: '' })
-                res.render("admin/chefs/showChef", { chef, recipes })
-
-            })
-
-        })
-
+                res.render("admin/chefs/showChef", { chef, recipes })          
+        
     },
 
-    editChef(req, res) {
-        ChefsAdmin.find(req.params.id, function (chef) {
+   async editChef(req, res) {
+       const result = await ChefsAdmin.find(req.params.id)
+       const chef = result.rows[0] 
             if (!chef) return res.send("Chef not found!")
 
+            return res.render("admin/chefs/editChef", { chef })        
+   },
 
-            // ChefsAdmin.findRecipes(req.params.id, function (recipes) {
-            //     if (!recipes) return res.send("Recipes not found!")
-            //     console.log(`CHEF: ${chef}, RECEITAS:${recipes}`)
-            //     // res.render("admin/chefs/showChef", { chef, recipes, msgError: '' })
-            //     res.render("admin/chefs/editChef", { chef, recipes})
-
-            // })
-
-            return res.render("admin/chefs/editChef", { chef })
-        })
-    },
-
-    put(req, res) {
+    async put(req, res) {
 
         const keys = Object.keys(req.body)
 
@@ -78,44 +60,25 @@ module.exports = {
             }
         }
 
-        ChefsAdmin.updade(req.body, function () {
+       const result = await ChefsAdmin.updade(req.body)
+       const chef = result.rows[0]
             return res.redirect(`/admin/chefs/${req.body.id}`)
-        })
-    },
+        
+    },    
 
     delete(req, res) {
+            
         Recipes.findOneByChef(req.body.id, recipes => {
-
 
             ChefsAdmin.delete(req.body.id, function () {
                 ChefsAdmin.all(function (chefs) {
                     return res.render("admin/chefs/indexChef", { chefs })
                 })
             })
-
-
-
-
-            // if (recipes.length == 0) {
-            //     ChefsAdmin.delete(req.body.id, function () {
-            //         ChefsAdmin.all(function (chefs) {
-            //             return res.render("admin/chefs/indexChef", { chefs, msgError: "" })
-            //         })
-            //     })
-
-            // } else {
-            //     ChefsAdmin.findById(req.body.id, chef => {
-            //         ChefsAdmin.findRecipes(req.body.id, recipes => {
-            //             res.render("admin/chefs/showChef", { chef, recipes, msgError: 'Impossivel deletar o chef com receitas cadastradas, "exclua suas receitas depois delete o chef!"' })
-            //         })
-            //     })
-            // }
-
         })
-
     }
+    
 }
-
 
 
 

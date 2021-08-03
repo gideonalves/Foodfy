@@ -8,11 +8,11 @@ module.exports = {
 
     findAllChefsCountRecipes(callback) {
         db.query(`
-        SELECT c.id, c.name,count(r.id) AS total_recipes,c.avatar_url
+        SELECT c.id, c.name,count(r.id) AS total_recipes,c.file_id
         FROM chefs c
         INNER JOIN recipes r
         ON c.id = r.chef_id
-        GROUP BY c.id,c.name,c.avatar_url 
+        GROUP BY c.id,c.name,c.file_id 
         ORDER BY c.name ASC
         `, function(err, results) {
             if(err) throw `Database Erro! ${err}`
@@ -21,50 +21,54 @@ module.exports = {
     },
 
     // POST
-    create(data, callback) {
+    create(data) {
          //inserir dados no banco de dados
          const query = `
          INSERT INTO chefs (
-             name,
-             avatar_url,
-             created_at            
-         ) VALUES ($1, $2, $3)
-         RETURNING id
-     `
-         const values = [
-             data.name,
-             data.avatar_url,
-             data.created_at
-         ]
+            name,
+            avatar_url,
+            created_at            
+        ) VALUES ($1, $2, $3)
+        RETURNING id
+    `
+        const values = [
+            data.name,
+            data.avatar_url,
+            data.created_at
+        ]
  
         return db.query(query, values)
     },
     // show
-    find(id, callback){
-        
-        db.query( `
+    find(id){ 
+        try {
+            return db.query( `
             SELECT chefs.*,
             count(recipes.chef_id) AS totalRecipes FROM chefs
             LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
             WHERE chefs.id = $1
-            GROUP BY chefs.id`, [id], function(err, results) {
-                if (err) return res.send("Database Erro!")
-
-                callback(results.rows[0])
-        })
+            GROUP BY chefs.id`, [id]
+             )       
+            
+            } catch (error) {
+                console.error(error)
+              }
+            
     }, 
-    
-    findRecipes(id, callback) {
-        db.query(`
+      
+    findRecipes(id) {
+        try {
+            return db.query(`
             SELECT r.* FROM chefs as c 
             LEFT JOIN  recipes as r
             ON c.id = r.chef_id
             WHERE c.id = $1  
-            `,[id], function(err, results) {
-                if (err) return res.send("Database Erro!")
-
-                callback(results.rows)
-        })
+            `,[id]
+        )
+        } catch (error) {
+            console.error(error)
+        }
+   
     },
     // Edit
     findById(id, callback) {
@@ -80,26 +84,21 @@ module.exports = {
         })
     },
 
-    updade(data, callback) {
-            const query = `
-            UPDATE chefs SET
-            name=($1),
-            avatar_url=($2),
-            created_at=($3)                        
-            WHERE id = $4
-            `        
-            const values = [
-                data.name,
-                data.avatar_url,              
-                data.created_at,
-                data.id
-            ]
-
-            db.query(query, values, function(err, results) {
-                if(err) throw `Database Erro! ${err}`
-
-                callback()
-            })    
+    updade(data) {
+        const query = `
+        UPDATE chefs SET
+        name=($1),
+        avatar_url=($2),
+        created_at=($3)                        
+        WHERE id = $4
+        `        
+        const values = [
+            data.name,
+            data.avatar_url,              
+            data.created_at,
+            data.id
+        ]
+          return db.query(query, values)    
     },
 
     delete(id, callback) {
