@@ -1,8 +1,8 @@
 CREATE TABLE "chefs" (
   "id" SERIAL PRIMARY KEY,
   "name" text NOT NULL,
+  "file_id" int NOT NULL,
   "created_at" timestamp DEFAULT (now())
-  "avatar_url" text NOT NULL,
 );
 
 CREATE TABLE "recipes" (
