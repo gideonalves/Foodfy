@@ -153,6 +153,7 @@ module.exports = {
         return res.redirect(`/admin/recipes/${req.body.id}`)
     },
 
+
     // Delete
     async delete(req, res) {
         const results = (await Files.findFileIDRecipeId(req.body.id)).rows

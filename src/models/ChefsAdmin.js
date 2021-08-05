@@ -3,7 +3,25 @@ const db = require('../config/db')
 module.exports = {
     // INDEX
     all() {
-       return db.query(`SELECT * FROM chefs`)
+        return db.query(`
+        SELECT chefs.id, chefs.name, files.name AS file_name, files.path 
+        FROM chefs
+        INNER JOIN files 
+        ON files.id = chefs.file_id `
+        )
+    },
+
+    findChef(id) {
+        try {
+            return db.query(`
+            SELECT * FROM chefs 
+            WHERE id = $1`,
+                [id]
+            )
+
+        } catch (error) {
+            console.error(error)
+        }
     },
 
     findAllChefsCountRecipes(callback) {
@@ -14,48 +32,49 @@ module.exports = {
         ON c.id = r.chef_id
         GROUP BY c.id,c.name,c.file_id 
         ORDER BY c.name ASC
-        `, function(err, results) {
-            if(err) throw `Database Erro! ${err}`
+        `, function (err, results) {
+            if (err) throw `Database Erro! ${err}`
             callback(results.rows)
         })
     },
 
     // POST
     create(data) {
-         //inserir dados no banco de dados
-         const query = `
+        //inserir dados no banco de dados
+        const query = `
          INSERT INTO chefs (
             name,
-            avatar_url,
+            file_id,
             created_at            
         ) VALUES ($1, $2, $3)
         RETURNING id
     `
         const values = [
             data.name,
-            data.avatar_url,
-            data.created_at
+            data.file_id,
+            new Date()
         ]
- 
+
         return db.query(query, values)
     },
     // show
-    find(id){ 
+    find(id) {
         try {
-            return db.query( `
-            SELECT chefs.*,
+            return db.query(`
+            SELECT chefs.id,chefs.name AS name_chef,files.path,files.name,
             count(recipes.chef_id) AS totalRecipes FROM chefs
             LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
+            INNER JOIN files ON (files.id = chefs.file_id)      
             WHERE chefs.id = $1
-            GROUP BY chefs.id`, [id]
-             )       
-            
-            } catch (error) {
-                console.error(error)
-              }
-            
-    }, 
-      
+            GROUP BY chefs.id,files.id`, [id]
+            )
+
+        } catch (error) {
+            console.error(error)
+        }
+
+    },
+
     findRecipes(id) {
         try {
             return db.query(`
@@ -63,21 +82,21 @@ module.exports = {
             LEFT JOIN  recipes as r
             ON c.id = r.chef_id
             WHERE c.id = $1  
-            `,[id]
-        )
+            `, [id]
+            )
         } catch (error) {
             console.error(error)
         }
-   
+
     },
     // Edit
     findById(id, callback) {
-        db.query( `
+        db.query(`
         SELECT chefs.*,
         count(*) AS totalRecipes FROM chefs
         LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
         WHERE chefs.id = $1
-        GROUP BY chefs.id`, [id], function(err, results) {
+        GROUP BY chefs.id`, [id], function (err, results) {
             if (err) return res.send("Database Erro!")
 
             callback(results.rows[0])
@@ -88,29 +107,34 @@ module.exports = {
         const query = `
         UPDATE chefs SET
         name=($1),
-        avatar_url=($2),
-        created_at=($3)                        
-        WHERE id = $4
-        `        
+        file_id=($2)
+        WHERE id = $3
+        `
         const values = [
             data.name,
-            data.avatar_url,              
-            data.created_at,
+            data.file_id,
             data.id
         ]
-          return db.query(query, values)    
+        return db.query(query, values)
     },
 
-    delete(id, callback) {
-        db.query(`DELETE FROM chefs WHERE id = $1`, [id], function(err, results) {
-            if(err) throw `Database Erro! ${err}` // throw = lançar
-    
-            return callback()
-        })
-    }, 
-    
+    findOneByChef(id_chef) {
+        return db.query(`
+        select * from chefs where id = $1`, [id_chef])
+
+    },
+
+    delete(id) {
+        try {
+            return db.query(`DELETE FROM chefs WHERE id = $1`, [id])
+
+        } catch (error) {
+            throw error
+        }
+    },
+
+
 
 }
 
 
-  

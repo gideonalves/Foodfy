@@ -62,15 +62,11 @@ module.exports = {
         })
     },
     
-    findOneByChef(id_chef, callback){
-        db.query(`
-            SELECT * FROM recipes 
-            WHERE recipes.chef_id = $1`,[id_chef], function(err, results) {
-                if(err) throw `Database Erro! ${err}`
-    
-                callback(results.rows)
-            })
-
-    }
+    findOneByChef(id_chef){
+        return  db.query(`
+              SELECT * FROM recipes 
+              WHERE recipes.chef_id = $1`,[id_chef])
+  
+      },
 
 }

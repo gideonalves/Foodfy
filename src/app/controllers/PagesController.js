@@ -2,7 +2,7 @@ const Recipes = require('../../models/Recipes')
 const Chefs = require('../../models/ChefsAdmin')
 
 module.exports = {
-    index(req, res) {
+    index(req, res) {        
         // return res.send("Formulario vazio Preencha o formulario")        
         let { filter, page, limit } = req.query
 
