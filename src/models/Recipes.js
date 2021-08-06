@@ -2,15 +2,15 @@ const db = require('../config/db')
 
 module.exports = {
 
-    all(callback) {
-        db.query(`
-        SELECT recipes.*, chefs.name
+    async all() {
+      const results = await db.query(`
+        SELECT recipes.*, chefs.name, files.path
         FROM recipes
+        INNER JOIN recipe_files ON (recipe_files.recipe_id = recipes.id) 
+        INNER JOIN files ON (recipe_files.file_id = files.id)
         INNER JOIN chefs ON (recipes.chef_id = chefs.id)`,
-         function(err, results) {
-            if(err) throw `Database Erro! ${err}`
-            callback(results.rows)
-        })    
+        )   
+      return results.rows 
     },
 
    async find(id) {

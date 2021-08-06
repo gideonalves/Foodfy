@@ -50,16 +50,31 @@ module.exports = {
         return res.render("pages/recipe", { items: recipe })
     },
 
-    recipes(req, res) {
-        Recipes.all(function (recipes) {
-            return res.render("pages/recipes", { items: recipes })
-        })
+    async recipes(req, res) {
+       const results = await Recipes.all() 
+
+       const recipes = results.map(recipe => ({
+           ...recipe,
+           image: `${req.protocol}://${req.headers.host}${recipe.path.replace(
+            "public",
+            ""
+             )}`
+       }))
+    //    return res.send(results)
+       return res.render("pages/recipes", { items: recipes })    
     },
 
-    pagesChefs(req, res) {
-        Chefs.findAllChefsCountRecipes(chefs => {
+    async pagesChefs(req, res) {
+       const results = await Chefs.findAllChefsCountRecipes()
+       const chefs = results.map(chef => ({
+           ...chef,
+           image: `${req.protocol}://${req.headers.host}${chef.path.replace(
+                "public",
+                ""
+            )}`
+       }))
             return res.render("pages/chefs", { chefs })
-        })
+        
     },
 
     filterRecipesByTitle(req, res) {

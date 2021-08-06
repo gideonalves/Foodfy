@@ -224,6 +224,8 @@ footer {
     height: 62px;
     align-content: center;   
     display: flex;
+    /* position: absolute; */
+    bottom: 0;
 }
 
 footer p {
