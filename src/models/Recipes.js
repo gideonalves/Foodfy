@@ -13,15 +13,13 @@ module.exports = {
         })    
     },
 
-    find(id, callback) {
-        db.query(`
-            SELECT * 
-            FROM recipes
-            WHERE recipes.id = $1`, [id], function(err, results) {
-                if(err) throw `Database Erro! ${err}`
-    
-                callback(results.rows[0])
-            })
+   async find(id) {
+       const results = await db.query(`
+            SELECT * FROM recipes
+            INNER JOIN recipe_files ON (recipe_files.recipe_id = recipes.id) 
+            INNER JOIN files ON (recipe_files.file_id = files.id)
+            WHERE recipes.id = $1`, [id])
+            return results.rows[0]
     }, 
 
     findAllByTitle(filter,callback) {
@@ -29,37 +27,34 @@ module.exports = {
         SELECT r.*, c.name FROM recipes r
         INNER JOIN chefs c
         ON c.id = r.chef_id	
-        WHERE r.title LIKE '%${filter}%'`, function(err, results) {
+        WHERE r.title ILIKE '%${filter}%'`, function(err, results) {
                 if(err) throw `Database Erro! ${err}`
     
                 callback(results.rows)
             })
     },
 
-    paginate(params) {
-        const { filter, limit, offset, callback } = params // destruturando do params
+   async paginate(params) {
+        const { filter, limit, offset} = params // destruturando do params
 
         let query = `
-        SELECT recipes.*,chefs.name, (SELECT COUNT (re.id) FROM recipes re) AS totaPages FROM recipes
-         INNER JOIN chefs ON (recipes.chef_id = chefs.id)
-         
+        SELECT recipes.*,chefs.name,files.path, (SELECT COUNT (re.id) FROM recipes re) AS totaPages FROM recipes
+        INNER JOIN chefs ON (recipes.chef_id = chefs.id) 
+        INNER JOIN recipe_files ON (recipe_files.recipe_id = recipes.id) 
+        INNER JOIN files ON (recipe_files.file_id = files.id) 
+                
         `
         if ( filter ) {
             query = `%${query}%
-             WHERE recipes.title ILIKE '%${filter}%' 
+            WHERE recipes.title ILIKE '%${filter}%' 
             `        
         }
-        query = `${query} 
-        ORDER BY recipes.title ASC
-         LIMIT $1 OFFSET $2 
-            
-        `
-
-        db.query(query, [limit, offset], function(err, results) {
-            if(err) throw `Database Erro! ${err}`
-    
-            callback(results.rows)
-        })
+            query = `${query} 
+            ORDER BY recipes.title ASC
+            LIMIT $1 OFFSET $2`
+        
+        const results = await db.query(query, [limit, offset])
+        return results.rows
     },
     
     findOneByChef(id_chef){

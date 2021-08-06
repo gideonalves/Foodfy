@@ -116,8 +116,8 @@ module.exports = {
             removedFiles.splice(lastIndex, 1)
 
             const removedFilesPromise = removedFiles.map(id => {
-                Files.delete(id)
                 Files.deleteRecipeFiles(id)
+                Files.delete(id)
             })
 
             await Promise.all(removedFilesPromise)

@@ -106,6 +106,7 @@ module.exports = {
             }
 
             result = await ChefsAdmin.updade(chef)
+           
             await Files.delete(file_id)
 
             return res.redirect(`/admin/chefs/${req.body.id}`)
