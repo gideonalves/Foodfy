@@ -19,6 +19,7 @@ module.exports = {
     },
 
     createChef(req, res) {
+        // res.send('teste')
         return res.render("admin/chefs/createChef")
     },
 
@@ -57,15 +58,22 @@ module.exports = {
         const chefresult = results.rows[0]
         const chef = {
             ...chefresult,
-
             avatar_url: `${req.protocol}://${req.headers.host}${chefresult.path.replace("public", "")}`
         }
         // console.log(chef);
         if (!chef) return res.send("Chefe não encontrado!")
 
         // pega recipes
-        results = await ChefsAdmin.findRecipes(req.params.id)
-        const recipes = results.rows
+        results = (await ChefsAdmin.findRecipes(req.params.id)).rows
+        const recipes = results.map(recipe =>({
+            ...recipe,
+            image: `${req.protocol}://${req.headers.host}${recipe.path.replace(
+                "public",
+                ""
+            )}`
+        }))
+        // return res.send(recipes)
+        
         if (!recipes) return res.send("Recipes não encontrado!")
 
         res.render("admin/chefs/showChef", { chef, recipes })

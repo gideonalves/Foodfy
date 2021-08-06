@@ -16,6 +16,8 @@
 body {
     font-family: 'Roboto-Regular', sans-serif;    
     background-color:snow;
+    position: relative;
+    height: 100vh;
 }  
 
 .header {

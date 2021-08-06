@@ -24,18 +24,17 @@ module.exports = {
         }
     },
 
-    findAllChefsCountRecipes(callback) {
-        db.query(`
-        SELECT c.id, c.name,count(r.id) AS total_recipes,c.file_id
+    async findAllChefsCountRecipes() {
+        const results = await db.query(`
+        SELECT c.id, c.name,count(r.id) AS total_recipes,c.file_id, files.path
         FROM chefs c
+        INNER JOIN files ON (files.id = c.file_id)
         INNER JOIN recipes r
         ON c.id = r.chef_id
-        GROUP BY c.id,c.name,c.file_id 
+        GROUP BY c.id,c.name,c.file_id, files.id 
         ORDER BY c.name ASC
-        `, function (err, results) {
-            if (err) throw `Database Erro! ${err}`
-            callback(results.rows)
-        })
+        ` )
+        return results.rows
     },
 
     // POST
@@ -78,8 +77,12 @@ module.exports = {
     findRecipes(id) {
         try {
             return db.query(`
-            SELECT r.* FROM chefs as c 
-            LEFT JOIN  recipes as r
+            SELECT r.*, files.path, c.name FROM chefs as c 
+            LEFT JOIN  recipes as r 
+            INNER JOIN recipe_files as rf
+            ON r.id = rf.recipe_id
+            INNER JOIN files 
+            ON files.id = rf.file_id 
             ON c.id = r.chef_id
             WHERE c.id = $1  
             `, [id]
