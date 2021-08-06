@@ -10,7 +10,7 @@ module.exports = {
         limit = limit || 3
 
         let offset = limit * (page - 1)
-
+        
         const params = {
             filter,
             page,
