@@ -7,7 +7,7 @@
 //     salario:5000
 // }
 
-const { name } = require("browser-sync");
+// const { name } = require("browser-sync");
 
 // const funcionario = {
 //     ...pessoa,
@@ -73,27 +73,65 @@ const { name } = require("browser-sync");
 //   
 
 
-const results = [
-  {
-    "id": 172,
-    "name": "1627346171520-logo.png",
-    "path": "public\\images\\1627346171520-logo.png",
-    "recipe_id": 279,
-    "file_id": 323
-  },
-  {
-    "id": 173,
-    "name": "1627346171525-pizza.png",
-    "path": "public\\images\\1627346171525-pizza.png",
-    "recipe_id": 279,
-    "file_id": 324
+// const results = [
+//   {
+//     "id": 172,
+//     "name": "1627346171520-logo.png",
+//     "path": "public\\images\\1627346171520-logo.png",
+//     "recipe_id": 279,
+//     "file_id": 323
+//   },
+//   {
+//     "id": 173,
+//     "name": "1627346171525-pizza.png",
+//     "path": "public\\images\\1627346171525-pizza.png",
+//     "recipe_id": 279,
+//     "file_id": 324
+//   }
+// ]
+
+// const arr = results.map(file =>({
+//  ...file,
+
+// src:`http://localhost:3000/images/${file.name}`
+// }))
+
+// console.log(arr);
+
+// const date = new Date()
+// console.log(date);
+
+// exemnplo de função
+function teste(data){
+  return {
+    name: data.name,
+    idade:data.idade,
+    status:true
   }
-]
+}
 
-const arr = results.map(file =>({
- ...file,
+const pessoaData = {
+  name:"Alessandro",
+  idade:40
+}
 
-src:`http://localhost:3000/images/${file.name}`
-}))
+console.log(teste(pessoaData));
 
-console.log(arr);
+function test2(...numeros){
+  return console.log(numeros);
+}
+
+// function teste3(numero1,numero2, numero3){
+//   return console.log(numero1,numero2,numero3);
+// }
+
+// teste3(1,2,3,4,5)
+
+function parOuImpar(numero){
+  if(numero%2==0){
+    console.log(`Ò numero ${numero} é PAR`);
+  }else{
+    console.log(`Ò numero ${numero} é IMPAR`);
+  }
+}
+parOuImpar(35)

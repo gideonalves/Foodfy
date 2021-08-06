@@ -1,4 +1,60 @@
+{% block content %}
+
 <div class="item">
+        <div>Nome</div>
+    <div>
+        <input 
+            type="text" 
+            name="name" 
+            value="{{chef.name_chef}}"
+        >
+    </div>
+</div>
+</div>
+
+<div class="item">
+    <label for="">Avatar</label>
+    <div id="photos-upload-chef">
+            <p>Enviar Avatar</p>
+            <input 
+            id="photos-input"
+            type="file" 
+            name="photos" 
+            multiple
+            accept="image/*"
+            onchange="PhotosUpload.handleFileInput(event)"
+            >
+        </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{# <div class="item">
     <div>Nome</div>
     <div>
         <input 
@@ -7,17 +63,28 @@
             value="{{chef.name}}"
         >
     </div>
+<<<<<<< HEAD
 </div>
 
 <div class="item">
     <div>Avatar</div>
     <div>
-        <input 
-            type="url" 
-            name="avatar_url" 
-            placeholder="http://" 
-            value="{{ chef.avatar_url }}"
-        >
+        <div id="files-upload">
+            <input 
+                id='input-file' 
+                type='file' 
+                name="photos" 
+                accept="image/*" 
+                onchange="PhotosUpload.handleFileInput(event)"
+            />
+            <label class="send-avatar">
+                Enviar Avatar
+            </label>         
+        </div>
     </div>
+    
 </div>
-
+ #}
+=======
+</div> #}
+>>>>>>> 80d2d398bbc2497abbc3d4a0cfe08ee80ce7802b

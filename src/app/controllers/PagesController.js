@@ -2,7 +2,7 @@ const Recipes = require('../../models/Recipes')
 const Chefs = require('../../models/ChefsAdmin')
 
 module.exports = {
-    index(req, res) {
+    async index(req, res) {
         // return res.send("Formulario vazio Preencha o formulario")        
         let { filter, page, limit } = req.query
 
@@ -13,31 +13,41 @@ module.exports = {
 
         const params = {
             filter,
-            page,
             limit,
             offset,
-            callback(recipes) {
-                const pagination = {
-                   total:recipes.length > 0 ? Math.ceil(recipes[0].totapages/limit):0,
-                    page
-                }
-                return res.render("pages/index", { recipes, pagination,filter })
-            }            
-        } 
+        }
+        const results = await Recipes.paginate(params)
+        const recipes = results.map(recipe => ({
+            ...recipe,
+            image: `${req.protocol}://${req.headers.host}${recipe.path.replace(
+                "public",
+                ""
+            )}`
+        }))
 
-        Recipes.paginate(params)  
+        const pagination = {
+            total: recipes.length > 0 ? Math.ceil(recipes[0].totapages / limit) : 0,
+            page
+        }
+        return res.render("pages/index", { recipes, pagination, filter })
     },
 
     about(req, res) {
         return res.render("pages/about")
     },
 
-    recipe(req, res) {
-        Recipes.find(req.params.id, function (recipe) {
-            if (!recipe) return res.send("Recipes not found!")
+    async recipe(req, res) {
+        const result = await Recipes.find(req.params.id)
+        const recipe = {
+            ...result,
+            image: `${req.protocol}://${req.headers.host}${result.path.replace(
+                "public",
+                ""
+            )}`
+        }
 
-            return res.render("pages/recipe", { items: recipe })
-        })
+        if (!recipe) return res.send("Recipes not found!")
+        return res.render("pages/recipe", { items: recipe })
     },
 
     recipes(req, res) {

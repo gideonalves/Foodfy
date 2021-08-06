@@ -3,14 +3,15 @@
 {% block content %}
 
     <main>
-        <form class="details" method="POST" action="/admin/chefs?_method=PUT">
+        <form class="details" method="POST" action="/admin/chefs?_method=PUT" enctype="multipart/form-data">
 
             <div class="subtitulo">
                 <div>
                     <h2>Editar Chef</h2>
                 </div>
                 <div>
-                    <button type="submit">Salvar chef
+                    <button type="submit">
+                        Salvar chef
                     </button>
 
                     <button class="btnDele" form="form-delete" type="submit">Deletar

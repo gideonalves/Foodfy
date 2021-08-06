@@ -4,14 +4,14 @@
 
     <main>
         <div class="subtitulo">
-                <h2>Chef: {{chef.name}}</h2>
+                <h2>Chef: {{chef.name_chef}}</h2>
                 {# <button type="submit">Editar receita</button> #}
                 <a href="/admin/chefs/{{ chef.id }}/editChef" class="button">Editar Chef</a>
         </div>
 
         <div class="chef_avatar">
-            <img src="{{chef.avatar_url}}" alt="Imagem de {{chef.title}}">
-            <h2>{{chef.name}}</h2>
+            <img src="{{chef.avatar_url}}" alt="Imagem de {{chef.name_chef}}">
+            <h2>{{chef.name_chef}}</h2>
             <span class="totalRecipes">{{chef.totalrecipes}} Receitas</span>
         </div>
             <h2 style="color:red">{{msgError}}</h2>
@@ -34,9 +34,7 @@
             {% endfor %}
             {% endif%}
         </section>
-
-        
-      
+   
     </main>     
     
 {% endblock %}

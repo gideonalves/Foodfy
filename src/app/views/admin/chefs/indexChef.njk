@@ -11,10 +11,10 @@
         <section class="cards_chefs">
             {% for chef in chefs %}
                 <div class="chef_container">
-                       {# <div class="card" id="{{items.indexOf(item)}}">  #}
                     <div class="chef_image">
-                        <img src="{{chef.avatar_url}}" alt="Imagen de{{chef.title}}">
+                        <img src="{{chef.path}}" alt="Imagen de{{chef.name}}">
                     </div>
+                    
                     <div class="chef_info">
                         <h2>{{chef.name}}</h2>
                         <a href="/admin/chefs/{{chef.id}}">Visualizar</a>
@@ -22,9 +22,7 @@
                 </div>
             {% endfor %}
         </section>
-
-     
-       
+ 
     </main>
 
 {% endblock %}

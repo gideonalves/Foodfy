@@ -116,13 +116,13 @@ module.exports = {
             removedFiles.splice(lastIndex, 1)
 
             const removedFilesPromise = removedFiles.map(id => {
-                Files.delete(id)
                 Files.deleteRecipeFiles(id)
+                Files.delete(id)
             })
 
             await Promise.all(removedFilesPromise)
         }
-
+        
         if (req.files.length != 0) {
 
             // validar se ja não existem 5 imagens no total
@@ -139,9 +139,9 @@ module.exports = {
                     recipe_id: req.body.id,
                     file_id: id
                 }))
-
-                const idFilesRecipes = await Promise.all(fileRecipes)
-            }
+    
+                const idFilesRecipes = await Promise.all(fileRecipes)                
+            }           
         }
 
         req.body.ingredients = req.body.ingredients.filter(function (item) {
