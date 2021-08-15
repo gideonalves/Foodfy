@@ -48,7 +48,7 @@ module.exports = {
 
         const result = await ChefsAdmin.create(chefData)
         const chef = result.rows[0]
-
+        
         return res.redirect(`/admin/chefs/${chef.id}`)
     },
 
@@ -60,33 +60,49 @@ module.exports = {
             ...chefresult,
             avatar_url: `${req.protocol}://${req.headers.host}${chefresult.path.replace("public", "")}`
         }
-        // console.log(chef);
-        if (!chef) return res.send("Chefe não encontrado!")
-
-        // pega recipes
-        results = (await ChefsAdmin.findRecipes(req.params.id)).rows
-        const recipes = results.map(recipe =>({
-            ...recipe,
-            image: `${req.protocol}://${req.headers.host}${recipe.path.replace(
-                "public",
-                ""
-            )}`
-        }))
-        // return res.send(recipes)
         
-        if (!recipes) return res.send("Recipes não encontrado!")
+        if (!chef) return res.send("Chefe não encontrado!")
+        // pega recipes
+        results = (await ChefsAdmin.findRecipes(req.params.id)).rows        
+        
+        if (results[0].id === null) {           
 
-        res.render("admin/chefs/showChef", { chef, recipes })
+           return res.render("admin/chefs/showChef", { chef })
+        }else {
+            const recipes = results.map(recipe =>({
+                ...recipe,
+                image: `${req.protocol}://${req.headers.host}${recipe.path.replace("public", "")}`
+            }))
+            
+            if (!recipes) return res.send("Recipes não encontrado!")
+
+            res.render("admin/chefs/showChef", { chef, recipes })
+        }
+
 
     },
 
     async editChef(req, res) {
-        const result = await ChefsAdmin.find(req.params.id)
+        let result = await ChefsAdmin.find(req.params.id)
         const chef = result.rows[0]
-        // return res.send(result.rows)
-        if (!chef) return res.send("Chef not found!")
+        
+        results = (await ChefsAdmin.findRecipes(req.params.id)).rows
 
-        return res.render("admin/chefs/editChef", { chef })
+        if (results[0].id === null) { 
+            return res.render("admin/chefs/editChef", { chef })
+        }else {
+            const recipes = results.map(recipe =>({
+                ...recipe,
+                image: `${req.protocol}://${req.headers.host}${recipe.path.replace(
+                    "public",
+                    ""
+                )}`
+            }))
+            if (!chef) return res.send("Chef not found!")
+            // return res.send(chefs)
+            
+            return res.render("admin/chefs/editChef", { chef })
+        }
     },
 
     async put(req, res) {
@@ -126,6 +142,7 @@ module.exports = {
         }
 
         result = await ChefsAdmin.updade(chef)
+        
         return res.redirect(`/admin/chefs/${req.body.id}`)
     },
 
