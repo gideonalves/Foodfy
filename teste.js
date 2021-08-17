@@ -102,24 +102,24 @@
 // console.log(date);
 
 // exemnplo de função
-function teste(data){
-  return {
-    name: data.name,
-    idade:data.idade,
-    status:true
-  }
-}
+// function teste(data){
+//   return {
+//     name: data.name,
+//     idade:data.idade,
+//     status:true
+//   }
+// }
 
-const pessoaData = {
-  name:"Alessandro",
-  idade:40
-}
+// const pessoaData = {
+//   name:"Alessandro",
+//   idade:40
+// }
 
-console.log(teste(pessoaData));
+// console.log(teste(pessoaData));
 
-function test2(...numeros){
-  return console.log(numeros);
-}
+// function test2(...numeros){
+//   return console.log(numeros);
+// }
 
 // function teste3(numero1,numero2, numero3){
 //   return console.log(numero1,numero2,numero3);
@@ -127,11 +127,22 @@ function test2(...numeros){
 
 // teste3(1,2,3,4,5)
 
-function parOuImpar(numero){
-  if(numero%2==0){
-    console.log(`Ò numero ${numero} é PAR`);
-  }else{
-    console.log(`Ò numero ${numero} é IMPAR`);
-  }
+// function parOuImpar(numero){
+//   if(numero%2==0){
+//     console.log(`Ò numero ${numero} é PAR`);
+//   }else{
+//     console.log(`Ò numero ${numero} é IMPAR`);
+//   }
+// }
+// parOuImpar(35)
+
+
+const result = 0
+const b = true
+
+
+if (result == b) {
+  console.log(`o ${result} passou aqui`);
+}else{
+  console.log(`o ${result} não passou`);
 }
-parOuImpar(35)

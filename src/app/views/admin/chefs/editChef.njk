@@ -33,9 +33,9 @@
     <div class="modal-overlay">
         <!-- modal sobreposição -->
         <div class="modal">
+            <img src="{{chef.image}}" alt="Imagem de {{chef.name_chef}}">
 
-            <img src="{{chef.avatar_url}}" alt="Imagem de {{chef.title}}">
-            <h2>{{chef.name}}</h2>
+            <h2>{{chef.name_chef}}</h2>
             <h2>{{recipe.title}}</h2>
             <p>{{chef.totalrecipes}}
                 Receitas</p>
@@ -43,15 +43,11 @@
             <div class="modal_info">
                 <h3>Chef não pode ser Deletado</h3>
             </div>
-
             <button 
                 class="btnFechar"                                         
                 type="submit">Fechar
-            </button>
-
-           
-               
-            
+            </button>    
+                       
         </div>
     </div>
 
@@ -74,20 +70,13 @@
             formDelete.addEventListener("submit", function (event) {
 
                 event.preventDefault()
-                modalOverlay.classList.add('active')
-
-                
+                modalOverlay.classList.add('active')                
         document.querySelector(".btnFechar").addEventListener("click", function() {
             modalOverlay.classList.remove("active")
         })
 
             })
         }
-
-
-
-
-
     </script>
 
 {% endblock %}
