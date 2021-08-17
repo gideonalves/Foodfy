@@ -75,16 +75,18 @@ module.exports = {
             }))
             
             if (!recipes) return res.send("Recipes não encontrado!")
-
             res.render("admin/chefs/showChef", { chef, recipes })
         }
-
-
     },
 
     async editChef(req, res) {
-        let result = await ChefsAdmin.find(req.params.id)
-        const chef = result.rows[0]
+        let result = (await ChefsAdmin.find(req.params.id)).rows[0]
+        const chef ={
+             ...result,
+             image: `${req.protocol}://${req.headers.host}${result.path.replace(
+                "public\\images\\", "\\\\images\\\\"                 
+            )}`
+        }
         
         results = (await ChefsAdmin.findRecipes(req.params.id)).rows
 
@@ -94,12 +96,10 @@ module.exports = {
             const recipes = results.map(recipe =>({
                 ...recipe,
                 image: `${req.protocol}://${req.headers.host}${recipe.path.replace(
-                    "public",
-                    ""
+                    "public\\images\\", "\\\\images\\\\"                 
                 )}`
             }))
             if (!chef) return res.send("Chef not found!")
-            // return res.send(chefs)
             
             return res.render("admin/chefs/editChef", { chef })
         }
@@ -117,7 +117,6 @@ module.exports = {
         // aqui verifica se ta vindo objeto do formulario
         // res.send({body:req.body, files:req.files})
         let result = await ChefsAdmin.findChef(req.body.id)
-
         const [{ file_id }] = result.rows
         if (req.files.length === 1) {
 

@@ -90,7 +90,7 @@ module.exports = {
         let files = results.rows
         files = files.map(file => ({
             ...file,
-            src: `${req.protocol}://${req.headers.host}${file.path.replace(
+            src: `${req.protocol}://${req.headers.host}${file.path.replace(                
                 "public",
                 ""
             )}`
@@ -108,7 +108,6 @@ module.exports = {
                 return res.send('Please, fill all fields!')
             }
         }
-
         // remove as images
         if (req.body.removed_files) {
             const removedFiles = req.body.removed_files.split(",")
@@ -147,7 +146,6 @@ module.exports = {
         req.body.ingredients = req.body.ingredients.filter(function (item) {
             return item != ""
         })
-
 
         await RecipesAdmin.updade(req.body)
         return res.redirect(`/admin/recipes/${req.body.id}`)
