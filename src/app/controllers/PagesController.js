@@ -1,5 +1,5 @@
-const Recipes = require('../../models/Recipes')
-const Chefs = require('../../models/ChefsAdmin')
+const Recipes = require('../models/Recipes')
+const Chefs = require('../models/ChefsAdmin')
 
 module.exports = {
     async index(req, res) {

@@ -1,5 +1,5 @@
-const RecipesAdmin = require('../../models/RecipesAdmin')
-const Files = require('../../models/Files') // Pega os files do model
+const RecipesAdmin = require('../models/RecipesAdmin')
+const Files = require('../models/Files') // Pega os files do model
 
 module.exports = {
     // Index
