@@ -39,7 +39,7 @@ routes.delete("/admin/chefs", ChefsController.delete); // Deletar uma chefs
 
 // Login/logout
 routes.get('/admin/users/login', SessionController.loginForm)
-// routes.post('/login', SessionController.login)
+routes.post('/login', SessionController.login)
 // routes.post('/logout', SessionController.logout)
 
 module.exports = routes
