@@ -3,7 +3,7 @@ const Files = require('../../models/Files') // Pega os files do model
 
 module.exports = {
     // Index
-    async indexRecipe(req, res) {
+    async index(req, res) {
 
         // Pega os recipes   
         let results = (await RecipesAdmin.all()).rows
@@ -19,12 +19,12 @@ module.exports = {
             file: `${req.protocol}://${req.headers.host}${item.file[0].path.replace("public\\images\\", "\\\\images\\\\")}`,
         }))
 
-        return res.render("admin/recipes/indexRecipe", { recipes })
+        return res.render("admin/recipes/index", { recipes })
     },
     // CreateRecipe
-    async createRecipe(req, res) {
+    async create(req, res) {
         const chefOptions = await RecipesAdmin.chefSelectOptions();
-        return res.render('admin/recipes/createRecipe', { chefOptions: chefOptions.rows });
+        return res.render('admin/recipes/create', { chefOptions: chefOptions.rows });
     },
     // Post
     async post(req, res) {
@@ -58,7 +58,7 @@ module.exports = {
         }
     },
     // ShowRecipe
-    async showRecipe(req, res) {
+    async show(req, res) {
         let results = await RecipesAdmin.find(req.params.id)
         const recipes = results.rows[0]
 
@@ -76,7 +76,7 @@ module.exports = {
         return res.render("admin/recipes/showRecipe", { items: recipes, files })
     },
     // EditRecipe
-    async editRecipe(req, res) {
+    async edit(req, res) {
         // Pega os recipes
         let results = await RecipesAdmin.find(req.params.id)
         const recipes = results.rows[0]
@@ -97,7 +97,7 @@ module.exports = {
         }))
         // return res.send(files)
         // console.log(files)
-        return res.render("admin/recipes/editRecipe", { items: recipes, chefOptions: chefOptions.rows, files })
+        return res.render("admin/recipes/edit", { items: recipes, chefOptions: chefOptions.rows, files })
     },
     // Put    
     async put(req, res) {

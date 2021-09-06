@@ -56,7 +56,7 @@ module.exports = {
         }
     },
 
-    //  showRecipe e editRecipe
+    //  showRecipe e edit
     files(id) {
         return db.query(`
           SELECT files.* FROM files 

@@ -4,7 +4,7 @@ const Files = require('../../models/Files') // Pega os files do model
 
 module.exports = {
 
-    async indexChef(req, res) {
+    async index(req, res) {
         const results = (await ChefsAdmin.all()).rows
         const chefs = results.map(chef =>({
             ...chef,
@@ -15,12 +15,12 @@ module.exports = {
         }))
         
         // return res.send(chefs)
-        return res.render("admin/chefs/indexChef", { chefs })
+        return res.render("admin/chefs/index", { chefs })
     },
 
-    createChef(req, res) {
+    create(req, res) {
         // res.send('teste')
-        return res.render("admin/chefs/createChef")
+        return res.render("admin/chefs/create")
     },
 
     async post(req, res) {
@@ -52,7 +52,7 @@ module.exports = {
         return res.redirect(`/admin/chefs/${chef.id}`)
     },
 
-    async showChef(req, res) {
+    async show(req, res) {
         // pega os chefs
         let results = await ChefsAdmin.find(req.params.id)
         const chefresult = results.rows[0]
@@ -76,17 +76,17 @@ module.exports = {
         
         if (!recipes) return res.send("Recipes não encontrado!")
 
-        res.render("admin/chefs/showChef", { chef, recipes })
+        res.render("admin/chefs/show", { chef, recipes })
 
     },
 
-    async editChef(req, res) {
+    async edit(req, res) {
         const result = await ChefsAdmin.find(req.params.id)
         const chef = result.rows[0]
         // return res.send(result.rows)
         if (!chef) return res.send("Chef not found!")
 
-        return res.render("admin/chefs/editChef", { chef })
+        return res.render("admin/chefs/edit", { chef })
     },
 
     async put(req, res) {
