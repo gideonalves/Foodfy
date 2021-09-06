@@ -73,7 +73,7 @@ module.exports = {
         }))
         // console.log(files)
 
-        return res.render("admin/recipes/showRecipe", { items: recipes, files })
+        return res.render("admin/recipes/show", { items: recipes, files })
     },
     // EditRecipe
     async edit(req, res) {
