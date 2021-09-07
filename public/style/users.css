@@ -1,0 +1,40 @@
+
+/*--user-list--*/
+.users-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 50px 100px;
+    margin-top: 50px;
+  }
+  
+  .user-card {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-info h2 {
+    font-size: 18px;
+    color: var(--color-title);
+  }
+  
+  .user-info p {
+    font-size: 14px;
+    color: var(--color-descricion);
+    margin-top: 4px;
+  }
+  
+  .user-info-actions {
+    margin-top: 15px;
+  }
+  
+  .user-info-actions a {
+    font-size: 14px;
+    font-weight: bold;
+    color: #6558c3;
+    text-decoration: none;
+  }
+  
+  .user-info-actions a + a {
+    color: #f55a5a;
+    margin-left: 15px;
+  }

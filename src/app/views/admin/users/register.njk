@@ -1,0 +1,21 @@
+{% extends "admin-layout.njk" %}
+
+{% block content %}
+
+    <main>
+        
+        <form class="user-register details" method="POST" action="/admin/user/register">
+
+                <div class="subtitulo">
+                    <h2>Criando receita</h2>
+                    <button type="submit">Salvar receita</button>
+                </div>           
+
+                {% include 'admin/recipes/fields.njk' %}
+
+        </form>
+        
+    </main>
+     <script src="/scripts/scriptAddrecipes.js"></script>
+{% endblock %}
+

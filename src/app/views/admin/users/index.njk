@@ -1,0 +1,29 @@
+{% extends "admin-layout.njk" %}
+
+{% block content %}
+
+    <main>
+        <div class="subtitulo">
+            <h2>Usuários</h2>
+            <a class="button" href="/admin/users/create">Novo</a>
+        </div>
+
+         <section class="users-cards">
+            {% for user in users %}
+              <div class="user-card">
+                <div class="user-info">
+                    <h2>{{user.name}}</h2>
+                    <p>{{user.email}}</p>
+                </div><!--card-info-->
+                
+                <div class="user-info-actions">
+                    <a href="/admin/users/{{user.id}}/edit">Editar</a>
+                    <a href="#">Remover</a>
+                </div>
+            </div><!--user-card-->
+          {% endfor %}     
+        </section>
+    </main>
+
+{% endblock %}
+
