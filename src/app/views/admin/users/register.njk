@@ -3,19 +3,17 @@
 {% block content %}
 
     <main>
-        
-        <form class="user-register details" method="POST" action="/admin/user/register">
+        <form class="user-register details" method="POST" action="/admin/users/register">
 
                 <div class="subtitulo">
-                    <h2>Criando receita</h2>
-                    <button type="submit">Salvar receita</button>
+                    <h2>Criar Usuário</h2>
+                    <button type="submit">Salvar</button>
                 </div>           
 
-                {% include 'admin/recipes/fields.njk' %}
+                {% include 'admin/users/fields.njk' %}
+                 <div class="is_admin">
+       
 
         </form>
-        
     </main>
-     <script src="/scripts/scriptAddrecipes.js"></script>
 {% endblock %}
-

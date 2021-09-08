@@ -54,7 +54,10 @@ routes.get('/admin/users', UserController.list) // Mostrar a lista de usuários 
 //routes.get('/admin/users/:id/edit', UserController.edit) // Mostrar o formulário de edição de um usuário
 //routes.delete('/admin/users/:id', UserController.delete) // Deletar um usuário
 
-routes.get('/register', UserController.registerForm)
+routes.get('/admin/users/register', UserController.registerForm)
+
+//routes.get('/admin/users/create', UserController.create) // Mostrar o formulário de criação de um usuário
+
 module.exports = routes
 
 

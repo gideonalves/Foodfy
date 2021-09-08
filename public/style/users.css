@@ -1,40 +1,101 @@
+.user-register {
+  max-width: 940px;
+  margin-top: 64px;
+}
 
 /*--user-list--*/
 .users-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 50px 100px;
-    margin-top: 50px;
-  }
-  
-  .user-card {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .user-info h2 {
-    font-size: 18px;
-    color: var(--color-title);
-  }
-  
-  .user-info p {
-    font-size: 14px;
-    color: var(--color-descricion);
-    margin-top: 4px;
-  }
-  
-  .user-info-actions {
-    margin-top: 15px;
-  }
-  
-  .user-info-actions a {
-    font-size: 14px;
-    font-weight: bold;
-    color: #6558c3;
-    text-decoration: none;
-  }
-  
-  .user-info-actions a + a {
-    color: #f55a5a;
-    margin-left: 15px;
-  }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 50px 100px;
+  margin-top: 50px;
+}
+
+.user-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info h2 {
+  font-size: 18px;
+  color: var(--color-title);
+}
+
+.user-info p {
+  font-size: 14px;
+  color: var(--color-descricion);
+  margin-top: 4px;
+}
+
+.user-info-actions {
+  margin-top: 15px;
+}
+
+.user-info-actions a {
+  font-size: 14px;
+  font-weight: bold;
+  color: #6558c3;
+}
+
+.user-info-actions a + a {
+  color: #f55a5a;
+  margin-left: 15px;
+}
+
+/* ==== CREATE ======= */
+.user-subtitulo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 33px;
+}
+
+.user-subtitulo input:nth-child(1), 
+input:nth-child(2) {
+  width: 450px;
+  height: 49px;
+  margin-right: 40px;
+  font-size: 16px;
+  color: #999999;
+}
+
+.items {
+  display: flex;
+}
+
+.is_admin,
+.item label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #111111;
+}
+
+.input,
+.form input[name=name],
+.form input[name=email] {
+  width: 450px;
+  margin-right: 40px;
+  font-size: 16px;
+  color: #999999;
+}
+
+.form .is_admin {
+  display: flex;
+  align-items: center;
+  width: 450px;
+  margin-top: 33px;
+}
+
+.form .is_admin input {
+  width: 15px;
+  margin-right: 8px; 
+}
+
+/* validate errors */
+/* .input .error {
+  background-color: #e74c3c;
+  padding: 4px;
+  border-radius: 4px;
+  color: white;
+  margin-top: 10px;
+} */
+
