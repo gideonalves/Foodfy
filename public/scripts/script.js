@@ -251,4 +251,49 @@ const Lightbox = {
         Lightbox.closeButton.style.top = "-80px"
     }
 }
-            
+      
+
+// Validação do email
+const Validade = {
+    //apply = aplique
+    apply(input, func) {
+        Validade.clearErrors(input)
+
+
+       let results =  Validade[func](input.value)
+       input.value = results.value
+
+       if(results.error)
+            Validade.displayError(input, results.error)
+
+    },
+    // Coloca uma mensagem de erro (email invalido)
+    displayError(input, error) {
+        const div = document.createElement('div') // cria uma div
+        div.classList.add('error') // coloca a class error dentro da div
+        div.innerHTML = error
+        input.parentNode.appendChild(div)
+        input.focus()
+    },
+    // Função faz limpar o input do email
+    clearErrors(input) {
+       const errorDiv = input.parentNode.querySelector(".error")
+       if (errorDiv)
+          errorDiv.remove()
+    },
+
+    isEmail(value) {
+        let error = null
+
+        const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+        if (!value.match(mailFormat))
+            error = "Email inválido"
+
+        return {
+            error,
+            value
+        }
+    }
+
+}

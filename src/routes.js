@@ -2,11 +2,15 @@ const express = require('express')
 const routes = express.Router()
 const multer = require('./app/middlewares/multer')
 
+//Controllers
 const PagesController = require('./app/controllers/PagesController')
 const AdminController = require('./app/controllers/AdminController')
 const ChefsController = require('./app/controllers/ChefsController')
 const SessionController = require('./app/controllers/SessionController')
 const UserController = require('./app/controllers/UserController')
+
+// Validator
+const Validator = require('./app/validators/user')
 
 
 // Rotas Recipes Principais
@@ -47,14 +51,14 @@ routes.post('/login', SessionController.login)
 //routes.put('/admin/profile', ProfileController.put)// Editar o usuário logado
 
 // Rotas que o administrador irá acessar para gerenciar usuários
-routes.get('/admin/users', UserController.list) // Mostrar a lista de usuários cadastrados
-//routes.post('/admin/users', UserController.post) // Cadastrar um usuário
 //routes.get('/admin/users/create', UserController.create) // Mostrar o formulário de criação de um usuário
 //routes.put('/admin/users/:id', UserController.put) // Editar um usuário
 //routes.get('/admin/users/:id/edit', UserController.edit) // Mostrar o formulário de edição de um usuário
 //routes.delete('/admin/users/:id', UserController.delete) // Deletar um usuário
 
+routes.get('/admin/users', UserController.list) // Mostrar a lista de usuários cadastrados
 routes.get('/admin/users/register', UserController.registerForm)
+routes.post('/admin/users/register', Validator.post, UserController.post) // Cadastrar um usuário
 
 //routes.get('/admin/users/create', UserController.create) // Mostrar o formulário de criação de um usuário
 
