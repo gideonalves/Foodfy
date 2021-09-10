@@ -2,17 +2,15 @@ module.exports = {
 
     loginForm(req, res) {  
 
-        return res.render("session/index")
+        return res.render("session/login")
     },
 
     login(req, res) {  
+        return res.send('Chegou')
 
-        // verificar se o usuário está cadastrado
+       req.session.userId = req.user.id
 
-        // verificar se o password bate
-
-
-        // depois colocar o usário no req.session
+       return res.redirect("/users")
 
     },
   

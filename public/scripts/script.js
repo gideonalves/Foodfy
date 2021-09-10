@@ -254,17 +254,17 @@ const Lightbox = {
       
 
 // Validação do email
-const Validade = {
+const Validate = {
     //apply = aplique
     apply(input, func) {
-        Validade.clearErrors(input)
+        Validate.clearErrors(input)
 
 
-       let results =  Validade[func](input.value)
+       let results =  Validate[func](input.value)
        input.value = results.value
 
        if(results.error)
-            Validade.displayError(input, results.error)
+            Validate.displayError(input, results.error)
 
     },
     // Coloca uma mensagem de erro (email invalido)
@@ -297,3 +297,4 @@ const Validade = {
     }
 
 }
+

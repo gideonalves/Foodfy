@@ -30,4 +30,11 @@
     justify-content: space-between;
 }
 
-
+/* validate errors */
+.input .error {
+    background-color: #e74c3c;
+    padding: 4px;
+    border-radius: 4px;
+    color: white;
+    margin-top: 10px;
+}
