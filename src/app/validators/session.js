@@ -12,19 +12,18 @@ async function login(req, res, next) {
 
     if (!user) return res.render("session/login", {
         user: req.body,
-        error: "Usuário não cadastrado!"
+        error: "Usuário não esta cadastrado!",
     })
-
-    //  return res.send(user)
-
-
+    
     // verificar se o password bate
     const passed = await compare(password, user.password)
     // const passed = password === user.password
-    if (passed === false) return res.render("session/login", {
-        user: req.body,
-        error: "Senha incorreta."
-    })
+    if (!passed) {
+        return res.render("session/login", {
+          user: req.body,
+          error: "Senha incorreta!",
+        })
+      }
 
     req.user = user
 

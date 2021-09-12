@@ -9,6 +9,7 @@
 
        <link rel="stylesheet" href="/style/admin.css">
        <link rel="stylesheet" href="/style/session.css">  
+       <link rel="stylesheet" href="/style/messages.css">  
     
     </head>
     <body>
@@ -18,6 +19,8 @@
             <img class="logo-black" src="/assets/logo.png" alt="Logomarca">
          </div><!--logo-->
       </header>
+
+        {% include 'admin/parts/messages.njk' %} 
        
         {% block content %}{% endblock %}
 

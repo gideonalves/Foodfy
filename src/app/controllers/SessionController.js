@@ -6,11 +6,11 @@ module.exports = {
     },
 
     login(req, res) {  
-        return res.send('Chegou')
+        return res.send('passou')
 
        req.session.userId = req.user.id
 
-       return res.redirect("/users")
+       return res.redirect("/admin/profile")
 
     },
   
