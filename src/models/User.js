@@ -48,4 +48,26 @@ module.exports = {
         console.error(err)
       }
     },
+
+    update(id, fields) {
+      try {
+        let update = [];
+        let line
+        Object.keys(fields).map((key) => {
+          if (Array.isArray(fields[key])) {
+            line = `${key} = '{${fields[key]}}'`;
+          } else {
+            line = `${key} = '${fields[key]}'`;
+          }
+          update.push(line);
+        });
+  
+        let query = `UPDATE ${this.table} SET
+              ${update.join(",")} WHERE id = ${id}`;
+        console.log(query)
+        return db.query(query);
+      } catch (error) {
+        console.error(error);
+      }
+    },
 }    
