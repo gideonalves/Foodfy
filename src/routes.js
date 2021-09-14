@@ -6,8 +6,9 @@ const multer = require('./app/middlewares/multer')
 const PagesController = require('./app/controllers/PagesController')
 const AdminController = require('./app/controllers/AdminController')
 const ChefsController = require('./app/controllers/ChefsController')
-const SessionController = require('./app/controllers/SessionController')
 const UserController = require('./app/controllers/UserController')
+const ProfileController = require('./app/controllers/ProfileController')
+const SessionController = require('./app/controllers/SessionController')
 
 // Validator
 const UserValidator = require('./app/validators/user')
@@ -53,7 +54,7 @@ routes.get('/admin/password-reset', SessionController.resetForm)
 routes.post('/admin/password-reset', SessionValidator.reset, SessionController.reset)
 
 // Rotas de perfil de um usuário logado
-//routes.get('/admin/profile', ProfileController.index) // Mostrar o formulário com dados do usuário logado
+routes.get('/admin/profile', ProfileController.index) // Mostrar o formulário com dados do usuário logado
 //routes.put('/admin/profile', ProfileController.put)// Editar o usuário logado
 
 // Rotas que o administrador irá acessar para gerenciar usuários

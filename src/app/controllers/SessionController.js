@@ -13,9 +13,11 @@ module.exports = {
     },
 
     login(req, res) {  
-        return res.send('passou')
+        // return res.send('passou')
+        console.log(req.user.id)
+        req.session.userId = req.user.id
+        req.session.isAdmin = req.user.is_admin
 
-       req.session.userId = req.user.id
 
        return res.redirect("/admin/profile")
 
