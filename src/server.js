@@ -2,10 +2,12 @@ const express = require('express')
 const nunjucks = require('nunjucks')
 const routes = require("./routes") // chama o arquivo routes.js
 const methodOverride = require('method-override')
+const session = require('./config/session') // configura a session
 
 
 const server = express() // recipes guarda todos as informações que ta dentro o arquivo data.js
 
+server.use(session)
 server.use(express.urlencoded({ extended: true }))
 server.use(express.static('public')) // server.use(express.static('public/css'))
 server.use(methodOverride('_method'))

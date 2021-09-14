@@ -49,8 +49,8 @@ routes.post('/admin/login', SessionValidator.login, SessionController.login)
 // reset password / forgot
 routes.get('/admin/forgot-password', SessionController.forgotForm)
 routes.post('/admin/forgot-password', SessionValidator.forgot, SessionController.forgot)
-// routes.get('/admin/password-reset', session.resetForm)
-// routes.post('/admin/password-reset', session.reset)
+routes.get('/admin/password-reset', SessionController.resetForm)
+routes.post('/admin/password-reset', SessionValidator.reset, SessionController.reset)
 
 // Rotas de perfil de um usuário logado
 //routes.get('/admin/profile', ProfileController.index) // Mostrar o formulário com dados do usuário logado
