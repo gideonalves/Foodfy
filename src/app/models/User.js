@@ -1,7 +1,7 @@
-const db = require('../config/db')
+const db = require('../../config/db')
 
 const crypto = require("crypto");
-const mailer = require("../lib/mailer");
+const mailer = require("../../lib/mailer");
 const { hash } = require("bcryptjs");
 
 
@@ -40,14 +40,9 @@ module.exports = {
           ) VALUES ($1, $2, $3, $4)
           RETURNING id
         `
-        const password = await hash(data.password, 8)
+        const passwordHash = await hash(password, 8)
   
-        const values = [
-          data.name, 
-          data.email, 
-          data.password, 
-          data.is_admin
-        ]
+        const values = [data.name, data.email, passwordHash, data.is_admin]
   
         let results = await db.query(query, values)
   
@@ -56,6 +51,7 @@ module.exports = {
         console.error(err)
       }
     },
+    
     async update(id, fields) {
       let query = "UPDATE users SET"
 

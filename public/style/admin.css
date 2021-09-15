@@ -67,6 +67,17 @@ main {
     color: #111111;
 }
 
+.subtituloUser {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.subtituloUser link button cancela{
+    color: white;
+    
+}
+
 .subtitulo {
     margin: 30px 0 10px 0;
     display: flex;

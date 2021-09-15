@@ -1,4 +1,7 @@
-const User = require('../../models/User')
+const User = require('../models/User')
+
+
+
 
 async function post(req, res, next) {
     // Verifica se todos o campos estão preenchido
@@ -36,4 +39,5 @@ async function post(req, res, next) {
 
 module.exports = {
     post
+    
 }

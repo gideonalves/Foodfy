@@ -1,4 +1,4 @@
-const User = require('../../models/User')
+const User = require('../models/User')
 
 const crypto = require('crypto')
 const mailer = require('../../lib/mailer')
@@ -9,47 +9,42 @@ module.exports = {
         const results = await User.list()
         const users = results.rows
     
-        return res.render("admin/users/index", { users })
+        return res.render("admin/users/list", { users })
     },
     // Cria usuario
     registerForm(req, res) {
         return res.render("admin/users/register")
     },
+
+    create(req, res) {
+        return res.render("admin/users/create")
+    },
+
     //post envia as informações do formulario para o banco
     async post(req, res) {
-
-        const userId = await User.create(req.body)
-
-        req.session.userId = userId
-
-        // let { name, email, is_admin } = req.body;
-
-        // const password = crypto.randomBytes(8).toString("hex");
-  
-        // await mailer.sendMail({
-        //   to: email,
-        //   from: "no-reply@foodfy.com.br", //da ond esta send enviado,
-        //   subject: "Cadastrado com sucesso!",
-        //   html: `
-        //       <h2>Bem vindo, ${name}</h2>
-        //       <p>A partir de agora você pode criar, editar e visualizar suas receitas na plataforma Foodfy.</p>
-        //       <p>Utilize os seguintes dados para login:</p>
-        //       <p>E-mail: <strong>${email}</strong></p>
-        //       <p>Senha: <strong>${password}</strong></p>
-        //       <p>Para realizar seu login na plataforma, clique nesse link:<p/>
-        //       <p>
-        //           <a href="http://localhost:3000/admin/login" tarket="_blank" style="text-decoration: none; color: red;">
-        //               Acesse sua conta!
-        //           </a>
-        //       </p>
-        //       `,
-        // });
-        
-
-        return res.send('Passou')
-        // Parei aqui
-
-    }
+        const password = crypto.randomBytes(8).toString("hex")
+    
+        await mailer.sendMail({
+          to: req.body.email, //para onde enviar o email
+          from: "no-reply@foodfy.com.br", //da ond esta send enviado,
+          subject: "Senha de acesso ao foodfy", //titulo
+          html: `
+          <h2>Ola seja bem vindo(a)</h2>
+          <p>Aqui esta sua senha para realizar o acesso ao foodfy.
+          ${password}      
+          </p>
+        `, //corpo do email
+        })
+    
+        let userId = await User.create(req.body, password)
+    
+        if (!req.session.userId) req.session.userId = userId
+    
+        return res.render("admin/users/create", {
+          success: "Usuário cadastrado com secesso!",
+          location: "/admin/users",
+        })
+      },
 
 }
 

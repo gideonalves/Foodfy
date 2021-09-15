@@ -1,4 +1,4 @@
-const User = require('../../models/User')
+const User = require('../models/User')
 
 const { hash } = require('bcryptjs')
 const crypto = require('crypto')
