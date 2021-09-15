@@ -6,6 +6,11 @@ const mailer = require('../../lib/mailer')
 // const { reset } = require('browser-sync')
 
 module.exports = {
+    // do botão sair
+    logout(req, res) {
+        req.session.destroy()
+        return res.redirect("/")
+    },
 
     loginForm(req, res) {  
 

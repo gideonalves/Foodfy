@@ -60,6 +60,49 @@ body {
     color: #ffffff;
     font-weight: bold;
 }
+/* botão sair do usuario */
+.header-content .exit {
+    display:flex;
+    /* align-items: center; */
+    justify-content:center;
+}
+
+.header-content .exit .perfil {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    margin-right: 20px;
+    text-decoration: none;
+    color: white;
+}
+/* .header .exit .perfil{ 
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    margin-right: 20px;
+    text-decoration: none;
+    color: white;
+}
+
+*/
+
+.header-content .exit #exit {
+    text-decoration: none;
+    font-size: 16px;
+    color: #999999;
+    background-color: #111111;
+    border: none;
+  }
+
+.header-content .exit #exit:hover {
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+
+} 
+
+
 
 main {
     max-width: 940px;

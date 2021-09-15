@@ -45,7 +45,7 @@ routes.delete("/admin/chefs", ChefsController.delete); // Deletar uma chefs
 // Login/logout
 routes.get('/admin/login', SessionController.loginForm)
 routes.post('/admin/login', SessionValidator.login, SessionController.login)
-// routes.post('/admin/login', SessionController.login)
+routes.post('/admin/logout', SessionController.logout)
 
 // reset password / forgot
 routes.get('/admin/forgot-password', SessionController.forgotForm)
