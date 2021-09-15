@@ -1,0 +1,32 @@
+{% extends "admin-layout.njk" %}
+
+{% block content %}
+<main>
+    <form class="user-register details" method="POST" action="/admin/profile?_method=PUT">
+
+        <div class="subtitulo">
+            <h2>>Bem vindo(a),
+                    {{user.name}}</h2>
+            <div class="liks">
+            <button type="submit">Salvar</button>
+           </div>
+        </div>     
+           
+        {% include 'admin/users/fields.njk' %}
+
+        <input type="hidden" name="id" value="{{user.id}}">
+
+         <div class="item">
+            <div>Senha</div>
+            <div class="input">
+                <input 
+                    type="password" 
+                    name="password" 
+                    placeholder="Digite sua senha"
+                >
+            </div>
+        </div>
+        
+    </form>
+</main>
+{% endblock %}

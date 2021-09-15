@@ -3,16 +3,14 @@
 {% block content %}
 <main>
     <form class="user-register details" method="POST" action="/admin/users/create">
-        <div class="subtituloUser">
-            <div class="title">
-                 <h2>Criar Usuário</h2>
-            </div>
-            <div class="link">
-                 <button type="submit">Salvar</button>
-                 <a class="button cancela" href="/admin/users">Cancelar</a>
-            </div>
-           
-        </div>
+
+        <div class="subtitulo">
+            <h2>Criar Usuário</h2>
+            <div class="liks">
+            <button type="submit">Salvar</button>
+            <a class="btnCancelaUser" href="/admin/users">Cancelar</a>    
+           </div>
+        </div>     
 
            
         {% include 'admin/users/fields.njk' %}

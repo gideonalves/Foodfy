@@ -22,29 +22,8 @@ module.exports = {
 
     //post envia as informações do formulario para o banco
     async post(req, res) {
-        const password = crypto.randomBytes(8).toString("hex")
     
-        await mailer.sendMail({
-          to: req.body.email, //para onde enviar o email
-          from: "no-reply@foodfy.com.br", //da ond esta send enviado,
-          subject: "Senha de acesso ao foodfy", //titulo
-          html: `
-          <h2>Ola seja bem vindo(a)</h2>
-          <p>Aqui esta sua senha para realizar o acesso ao foodfy.
-          ${password}      
-          </p>
-        `, //corpo do email
-        })
-    
-        let userId = await User.create(req.body, password)
-    
-        if (!req.session.userId) req.session.userId = userId
-    
-        return res.render("admin/users/create", {
-          success: "Usuário cadastrado com secesso!",
-          location: "/admin/users",
-        })
-      },
+    },
 
 }
 

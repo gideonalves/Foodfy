@@ -1,6 +1,20 @@
 const User = require('../models/User')
 
 
+async function show(req, res, next) {
+    const {userId: id} = req.session
+  
+    const user = await User.findOne({ where: {id} })
+  
+    if (!user)
+      return res.render("admin/users/register", {
+        error: "Usuário não encontrado!",
+      });
+  
+    req.user = user;
+  
+    next();
+  }
 
 
 async function post(req, res, next) {
@@ -38,6 +52,7 @@ async function post(req, res, next) {
 }
 
 module.exports = {
-    post
+    post,
+    show
     
 }
