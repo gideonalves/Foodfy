@@ -62,8 +62,6 @@ async function post(req, res, next) {
         error: "Usuário já cadastrado."
    })
 
-  
-
     next()
 }
 

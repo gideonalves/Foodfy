@@ -1,8 +1,9 @@
 {% extends "admin-layout.njk" %}
 
 {% block content %}
+
 <main>
-    <form class="user-register details" method="POST" action="/admin/users/create">
+    <form class="user-register details" method="POST" action="/admin/users/register">
 
         <div class="subtitulo">
             <h2>Criar Usuário</h2>
@@ -15,6 +16,8 @@
            
         {% include 'admin/users/fields.njk' %}
         
-        <div class="is_admin"></form>
-    </main>
+
+    </form>
+</main>
+
 {% endblock %}

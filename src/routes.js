@@ -59,10 +59,8 @@ routes.put('/admin/profile', ProfileController.put)// Editar o usuário logado
 
 // Rotas que o administrador irá acessar para gerenciar usuários
 routes.get('/admin/users', UserController.list) // Mostrar a lista de usuários cadastrados
+routes.get('/admin/users/register', UserController.registerForm)//Mostrar formulário de novo usuários 
 routes.post('/admin/users/register', UserValidator.post, UserController.post) // Cadastrar um usuário
-routes.get('/admin/users/register', UserController.registerForm)
-
-routes.get('/admin/users/create', UserController.create) // Mostrar o formulário de criação de um usuário
 routes.get('/admin/users/:id/edit', UserValidator.edit, UserController.edit) // Mostrar o formulário de edição de um usuário
 routes.put('/admin/users', UserController.update) // Editar um usuário
 //routes.delete('/admin/users/:id', UserController.delete) // Deletar um usuário

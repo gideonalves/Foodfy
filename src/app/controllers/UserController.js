@@ -16,6 +16,18 @@ module.exports = {
         return res.render("admin/users/register")
     },
 
+    //post envia as informações do formulario para o banco
+    async post(req, res) {
+      // return res.send(req.body)    
+      
+      const userId = await User.create(req.body)
+
+      req.session.userId = userId
+
+      return res.redirect('admin/users')
+
+    },
+
     create(req, res) {
         return res.render("admin/users/create")
     },
@@ -27,10 +39,7 @@ module.exports = {
         return res.render("admin/users/edit", { user })
     },
 
-    //post envia as informações do formulario para o banco
-    async post(req, res) {
-      // enviar uma senha para o email
-    },
+
 
     async update(req, res) {
         try {
