@@ -1,0 +1,43 @@
+{% extends "admin-layout.njk" %}
+
+{% block content %}
+
+    <main>
+        <form class="user-register details" method="POST" action="/admin/users?_method=PUT">
+
+            <div class="subtitulo">
+                <div>
+                    <h2>Editar Chef</h2>
+                </div>
+                <div>
+                    <button class="btnDele" form="form-delete" type="submit">Deletar</button>
+
+                    <button type="submit">Salvar</button>
+                </div>
+            </div>
+
+            {% include 'admin/users/fields.njk' %}
+
+            <input type="hidden" name="id" value="{{user.id}}">
+        </form>
+
+        <form id="form-delete" action="/admin/users?_method=DELETE">
+            <input type="hidden" name="id" value="{{user.id}}">
+        </form>
+
+    </main>
+
+    <script>
+
+        const formDelete = document.querySelector("#form-delete")
+
+        formDelete.addEventListener("submit", function (event) {
+        const confirmation = confirm("Tem certeza que deseja excluir")
+            if (!confirmation) {
+                event.preventDefault()
+            }
+        })
+
+    </script>
+
+{% endblock content %}

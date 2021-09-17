@@ -20,10 +20,30 @@ module.exports = {
         return res.render("admin/users/create")
     },
 
+    async edit(req, res) {
+        let result = await User.find(req.params.id)
+        const user = result.rows[0]
+    
+        return res.render("admin/users/edit", { user })
+    },
+
     //post envia as informações do formulario para o banco
     async post(req, res) {
-    
+      // enviar uma senha para o email
     },
+
+    async update(req, res) {
+        try {
+          await User.adminUpdate(req.body)
+    
+          return res.render("admin/users/list", {
+            // users,
+            success: "Usuário atualizado com sucesso!",
+          });
+        } catch (err) {
+          console.error(err)
+        }
+      },
 
 }
 

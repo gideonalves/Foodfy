@@ -14,7 +14,11 @@ module.exports = {
           success,
           error,
         });
-    }
+    },
+
+    async put(req, res) {
+     
+    },
    
 
 }

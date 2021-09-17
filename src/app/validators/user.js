@@ -14,7 +14,23 @@ async function show(req, res, next) {
     req.user = user;
   
     next();
-  }
+}
+
+
+async function edit(req, res, next) {
+  const id = req.params.id;
+
+  const user = await User.findOne({ where: { id } });
+
+  if (!user)
+    return res.render("user/register", {
+      error: "Usuário não encontrado!",
+    });
+
+  req.user = user;
+
+  next();
+}
 
 
 async function post(req, res, next) {
@@ -53,6 +69,7 @@ async function post(req, res, next) {
 
 module.exports = {
     post,
-    show
+    show,
+    edit
     
 }
