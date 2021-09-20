@@ -17,12 +17,6 @@ module.exports = {
         return res.render("admin/users/register")
     },
 
-    // post envia as informações do formulario para o banco
-    // async post(req, res) {
-    //   // return res.send(req.body)          
-    //   const userId = await User.create(req.body)
-    //   return res.redirect('admin/users')
-    // },
     async post(req, res) {
       const password = crypto.randomBytes(8).toString("hex")
   
@@ -47,8 +41,6 @@ module.exports = {
         location: "/admin/users",
       })
     },
-
-
 
     create(req, res) {
         return res.render("admin/users/register")
