@@ -1,7 +1,8 @@
 const User = require('../models/User')
 
-const crypto = require('crypto')
-const mailer = require('../../lib/mailer')
+const crypto = require("crypto");
+const mailer = require("../../lib/mailer");
+const { hash } = require("bcryptjs");
 
 module.exports = {
     // Lista de usuario
@@ -16,20 +17,41 @@ module.exports = {
         return res.render("admin/users/register")
     },
 
-    //post envia as informações do formulario para o banco
+    // post envia as informações do formulario para o banco
+    // async post(req, res) {
+    //   // return res.send(req.body)          
+    //   const userId = await User.create(req.body)
+    //   return res.redirect('admin/users')
+    // },
     async post(req, res) {
-      // return res.send(req.body)    
-      
-      const userId = await User.create(req.body)
-
-      req.session.userId = userId
-
-      return res.redirect('admin/users')
-
+      const password = crypto.randomBytes(8).toString("hex")
+  
+      await mailer.sendMail({
+        to: req.body.email, //para onde enviar o email
+        from: "no-reply@foodfy.com.br", //da ond esta send enviado,
+        subject: "Senha de acesso ao foodfy", //titulo
+        html: `
+        <h2>Olaa seja bem vindo(a)</h2>
+        <p>Aqui esta sua senha para realizar o acesso ao foodfy.
+        ${password}      
+        </p>
+      `, //corpo do email
+      })
+  
+      let userId = await User.create(req.body, password)
+  
+      if (!req.session.userId) req.session.userId = userId
+  
+      return res.render("admin/users/register", {
+        success: "Usuário cadastrado com secesso!",
+        location: "/admin/users",
+      })
     },
 
+
+
     create(req, res) {
-        return res.render("admin/users/create")
+        return res.render("admin/users/register")
     },
 
     async edit(req, res) {
@@ -38,8 +60,6 @@ module.exports = {
     
         return res.render("admin/users/edit", { user })
     },
-
-
 
     async update(req, res) {
         try {
@@ -52,7 +72,7 @@ module.exports = {
         } catch (err) {
           console.error(err)
         }
-      },
+    },
 
 }
 

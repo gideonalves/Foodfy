@@ -16,7 +16,6 @@ async function show(req, res, next) {
     next();
 }
 
-
 async function edit(req, res, next) {
   const id = req.params.id;
 
@@ -32,8 +31,8 @@ async function edit(req, res, next) {
   next();
 }
 
-
 async function post(req, res, next) {
+
     // Verifica se todos o campos estão preenchido
     const keys = Object.keys(req.body)
 
@@ -66,8 +65,8 @@ async function post(req, res, next) {
 }
 
 module.exports = {
-    post,
-    show,
-    edit
+  show,
+  edit,
+  post
     
 }
