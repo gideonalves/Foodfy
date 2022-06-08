@@ -1,0 +1,24 @@
+<div class="logo">
+    <a href="/">
+        <img src="/assets/logo.png" alt="logo Foodfy">
+    </a>
+</div>
+
+<nav class="links">
+    <ul class="links-wrapper">
+        <li><a href="/about">Sobre</a></li>
+        <li><a href="/recipes">Receitas</a></li>
+        <li><a href="/chefs">Chefs</a></li>    
+        <li>
+            {% if session.userId %}
+                <a href="/admin/profile">Minha Conta</a>
+            {% else %}
+                <a href="/admin/login">login</a>
+            {% endif %}
+        </li>    
+    </ul>       
+</nav>
+
+
+
+    

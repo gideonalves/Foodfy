@@ -1,0 +1,12 @@
+<div class="recipe" id="{{recipe.id}}"> 
+    <img src="{{recipe.image}}" alt="Imagen de{{recipe.title}}">
+    <div>
+        <h3>{{recipe.title}}</h3>
+        <p>por {{chef.name or recipe.chef_name}}</p>
+        {% if chef %}
+            <a href="{% if admin %}/admin{% endif %}/recipes/{{recipe.id}}">Visualizar</a>
+        {% endif %}
+
+    </div>
+</div>
+

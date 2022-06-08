@@ -1,0 +1,161 @@
+.gallery {
+   width: 100%;
+}
+
+.gallery .highlight>img {
+   width: 100%;
+   height: 280px;
+   object-position: 50% 50%;
+   object-fit: cover;
+   border-radius: 15px;
+   border-radius: 15px;
+
+   cursor: zoom-in;
+}
+
+.gallery .gallery-preview {
+   width: 100%;
+   height: 60px;
+   display: flex;
+   align-items: center;
+   justify-content: flex-end;
+   gap: 5px;
+}
+
+.gallery .gallery-preview img {
+   height: 49.7px;
+   width: 50px;
+   object-fit: cover;
+   opacity: 0.6;
+   cursor: pointer;
+   transition: 200ms;
+   border: 1px solid #DDDDDD;
+   border-radius: 3.5px;
+   border-radius: 3, 5px;
+}
+
+.gallery-preview img:hover,
+.gallery-preview img.active {
+   opacity: 1;
+}
+
+/* ===================== LIGHTBOX FILES GALLERY ====================== */
+
+.gallery .highlight .lightbox-target {
+   position: fixed;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, .7);
+   overflow: hidden;
+   z-index: 100;
+
+   top: -100%;
+   /* modal some*/
+   left: 0;
+   opacity: 0;
+
+   transition: opacity 400ms;
+}
+
+.gallery .highlight .lightbox-target img {
+   margin: auto;
+   border-radius: 10px;
+
+   position: absolute;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+
+   background-color: white;
+   box-shadow: 0px 0px 8px rgba(0, 0, 0, .3);
+
+   width: 90%;
+   height: 90%;
+
+   object-fit: contain;
+}
+
+.gallery .highlight a.lightbox-close {
+   width: 50px;
+   height: 50px;
+
+   background: white;
+
+   position: absolute;
+   top: 80px;
+   right: 0;
+   border-radius: 50%;
+
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   transition: 400ms;
+}
+
+.recipe-banner {
+   text-align: center;
+   margin-top: 24px;
+   margin-bottom: 31px;
+}
+
+.recipe-banner img {
+   width: 940px;
+   height: 280px;
+   border-radius: 15px;
+   border-radius: 15px;
+}
+
+.recipe-banner h2 {
+   padding: 50px 0 4px 0;
+   font-size: 36px;
+   line-height: 46px;
+   color: #111111;
+}
+
+.recipe-banner span {
+   font-size: 20px;
+   line-height: 30px;
+   color: #777777;
+}
+
+/* ====================== RECIPE INFO ====================== */
+
+.recipe-item {
+   margin-top: 20px;
+}
+
+.recipe-item .title {
+   display: flex;
+   align-items: center;
+}
+
+.recipe-item .title h2 {
+   margin-right: 8px;
+}
+
+.recipe-item p.hide {
+   font-size: 12px;
+   color: var(--color-light-gray);
+   cursor: pointer;
+}
+
+.recipe-item .content,
+.recipe-item .content li {
+   font-size: 18px;
+   line-height: 28px;
+   color: var(--color-dark-gray);
+}
+
+.content ul li::before {
+   content: '- ';
+}
+
+.content.hidden {
+   display: none;
+}
+
+.hideShow {
+   cursor: pointer;
+}

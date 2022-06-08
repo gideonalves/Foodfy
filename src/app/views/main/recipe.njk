@@ -1,0 +1,98 @@
+{% extends "layouts/main.njk" %} 
+
+{% block head %}
+    <link rel="stylesheet" href="/styles/recipes/recipe-page.css">
+    <title>Unbranded Rubbler Shirt | Foodfy</title>
+{% endblock %}
+
+{% block content %}
+    <section class="selected container">  
+        <div class="gallery">
+            <div class="highlight">
+                {% if not recipe.files[0] %}
+                    <img src="http://placehold.it/940x280?text=Receita sem foto" alt="Imagem da receita">
+                {% else %}
+                    <img 
+                    src="{{recipe.files[0].src}}" 
+                            alt="Imagem de {{recipe.title}}" 
+                            onclick="Lightbox.open()"
+                        >
+                {% endif %}
+                
+                <div class="lightbox-target">
+                    <img src="{{recipe.files[0].src}}" alt="Imagem de {{recipe.title}}">
+
+                    <a 
+                        href="" 
+                        class="lightbox-close"
+                        onclick="Lightbox.close()"
+                    >
+                        <i class="material-icons">close</i>
+                    </a>   
+                </div>    
+            </div>
+
+            <div class="gallery-preview">
+                    {% for image in recipe.files %}
+                        <img
+                            src="{{image.src}}"
+                            alt="Imagem de {{recipe.title}}"
+                            {% if loop.index0 == 0 %} class="active-image" {% endif %}
+                            onclick="ImageGallery.setImage(event)"
+                        >
+                    {% endfor %}
+                </div>
+        </div>
+        
+        <div class="title">
+            <h1>{{recipe.title}}</h1>
+            <p>por {{recipe.chef_name}}</p>
+        </div>
+
+        <div class="recipe-item">
+            <div class="title">
+                <h2>🥚 Ingredientes</h2>
+                <a class="hideShow">ESCONDER</a>
+            </div>
+
+            <div class="content">
+                <ul>
+                    {% for recipe in recipe.ingredients %}
+                    {% if recipe !='' %}
+                        <li>{{ recipe }}</li>
+                    {%endif%}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="recipe-item">
+            <div class="title">
+                <h2>🍳 Modo de preparo</h2>
+                <a class="hideShow">ESCONDER</a>
+            </div>
+
+            <div class="content">
+                <ul>
+                    {% for recipe in recipe.preparation %}
+                    {% if recipe !='' %}
+                        <li>{{ recipe }}</li>
+                    {%endif%}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="recipe-item">
+            <div class="title">
+                <h2>📝 Informações adicionais</h2>
+                <a class="hideShow">ESCONDER</a>
+            </div>
+
+            <div class="content">
+                <p>{{ recipe.information }}</p>
+            </div>
+        </div>    
+    </section>
+{% endblock %}
+

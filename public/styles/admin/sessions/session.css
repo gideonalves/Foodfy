@@ -1,0 +1,32 @@
+.login  {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    padding: 35px;
+    margin-bottom: 110px;
+}
+
+.item {
+    width: 100%;
+}
+
+.footer {
+    margin-top: 35px;
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+}
+
+

@@ -1,0 +1,56 @@
+/*--messages--*/
+@keyframes hidemessage {
+  to {
+    right: -100px;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}
+
+.messages-container {
+  position: absolute;
+  top: 55px;
+  right: 20px;
+  color: var(--color-first-text);
+  padding: 50px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 4px;
+  opacity: 1;
+  visibility: visible;
+  animation: hidemessage 600ms linear 3s forwards;
+}
+
+.messages-container::before {
+  content: "";
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  position: absolute;
+  background-color: #fff;
+  bottom: 1px;
+  left: 0;
+  animation: progress 3s linear forwards;
+}
+
+.messages-container.success {
+  background-color: #01b12a;
+}
+
+.messages-container.error {
+  background-color: #dc4747;
+}
+
+.messages-container.error p {
+  color: white;
+}

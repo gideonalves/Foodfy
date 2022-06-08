@@ -1,0 +1,14 @@
+{% extends "layouts/main.njk" %} 
+
+{% block head %}
+    <link rel="stylesheet" href="/styles/chefs/chefs-list.css">
+    <title>Chefs | Foodfy</title>
+{% endblock %}
+
+{% block content %}
+    <section class="container list">            
+        {% include "templates/includes/chefs/chefs-list.njk" %}
+    </section>
+    {% include "templates/includes/pagination.njk" %}
+{% endblock %}
+

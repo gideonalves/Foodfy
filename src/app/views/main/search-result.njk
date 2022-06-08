@@ -1,0 +1,33 @@
+{% extends "layouts/main.njk" %} 
+
+{% block head %}
+    <link rel="stylesheet" href="/styles/recipes/recipes-list.css">
+     <title>Buscando por "{{search}}" | Foodfy</title>
+{% endblock %}
+
+{% block search%}              
+    {% include "templates/includes/recipes/search.njk" %}
+{% endblock search %}
+
+{% block content %}         
+    <section class="most-popular container">
+        <h2>Buscando por "{{search}}"</h2>
+
+            <div class="recipe-container">
+                {%if recipes.length > 0 %}
+                    {% for recipe in recipes %}
+                        <div class="recipe" id="{{recipe.id}}"> 
+                            <img src="{{recipe.image}}" alt="imagem de {{recipe.title}}">
+                            <div>
+                                <h3>{{recipe.title}}</h3>
+                                <p>por {{recipe.chef_name}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h2>Busca não encontrada</h2>
+                {%endif%}
+            </div>
+        {% include "templates/includes/pagination.njk" %}
+    </section>
+{% endblock %}

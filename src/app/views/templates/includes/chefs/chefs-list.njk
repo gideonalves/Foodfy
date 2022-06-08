@@ -1,0 +1,19 @@
+<section class="chef-container">
+    {% for chef in chefs %}
+        <div class="chef" data-id={{chef.id}}>
+            <img src="{{chef.image}}" alt="imagem de {{chef.name}}">   
+
+            <div>
+                <h3>{{chef.name}}</h3>
+                <p>{{total_recipes}} receitas</p>
+
+                {% if total_recipes == 1 %}
+                    <p class="title">{{chef.total_recipes}}
+                {% else %}
+                    {# <p>{{chef.total_recipes}}
+                        receitas</p> #}
+                {% endif %} 
+            </div>
+        </div>
+    {% endfor %}
+</section>
